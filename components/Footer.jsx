@@ -234,8 +234,8 @@ export default function Footer() {
                                     <div className="overflow-wrapper"><a href="https://linkedin.com/in/suresh-shanmugasundaram-7590ab279" target="_blank" rel="noopener noreferrer" className="credits-name" data-wiggle-target="true">Suresh</a></div>
                                 </div>
                                 <div className="credits-item credit-wiggle">
-                                    <div className="overflow-wrapper"><span className="credits-label">education</span></div>
-                                    <div className="overflow-wrapper"><a href="#" className="credits-name" data-wiggle-target="true">B.Sc. CS</a></div>
+                                    <div className="overflow-wrapper"><span className="credits-label">role</span></div>
+                                    <div className="overflow-wrapper"><a href="#" className="credits-name" data-wiggle-target="true">Software Engineer</a></div>
                                 </div>
                             </div>
                         </div>
