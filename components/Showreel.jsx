@@ -1,8 +1,26 @@
 'use client';
 
+import GridScan from './GridScan';
+
 export default function Showreel() {
     return (
         <section className="showreel-section" id="showreel-section">
+            {/* 3D WebGL GridScan Tunnel Background */}
+            <div className="showreel__grid-bg" aria-hidden="true">
+                <GridScan
+                    sensitivity={0.55}
+                    lineThickness={1}
+                    linesColor="#2F293A"
+                    gridScale={0.1}
+                    scanColor="#FF9FFC"
+                    scanOpacity={0.4}
+                    enablePost
+                    bloomIntensity={0.6}
+                    chromaticAberration={0.002}
+                    noiseIntensity={0.01}
+                />
+            </div>
+
             <div className="showreel__container">
                 <div className="showreel__header">
                     <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '8px' }}>
