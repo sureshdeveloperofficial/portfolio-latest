@@ -1,0 +1,19 @@
+{
+  "name": "truus",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 1919",
+    "build": "next build",
+    "start": "next start -p 1919",
+    "lint": "next lint"
+  },
+  "packageManager": "pnpm@10.28.2",
+  "dependencies": {
+    "gsap": "^3.12.5",
+    "lenis": "^1.1.14",
+    "next": "^16.3.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}
