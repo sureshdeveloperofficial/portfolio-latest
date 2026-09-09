@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 50" fill="none">
+  <path d="M25 8C17 8 10 14 10 23C10 29 14 34 19 36V42H23V37H27V42H31V36C36 34 40 29 40 23C40 14 33 8 25 8Z" fill="#336791" stroke="#ffffff" stroke-width="1.5"/>
+  <circle cx="19" cy="20" r="2.5" fill="#ffffff"/>
+  <circle cx="31" cy="20" r="2.5" fill="#ffffff"/>
+  <text x="48" y="32" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="18" letter-spacing="-0.5">Postgres</text>
+</svg>

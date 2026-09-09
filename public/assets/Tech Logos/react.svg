@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 50" fill="none">
+  <ellipse cx="25" cy="25" rx="18" ry="7" stroke="#61DAFB" stroke-width="2" transform="rotate(30 25 25)"/>
+  <ellipse cx="25" cy="25" rx="18" ry="7" stroke="#61DAFB" stroke-width="2" transform="rotate(90 25 25)"/>
+  <ellipse cx="25" cy="25" rx="18" ry="7" stroke="#61DAFB" stroke-width="2" transform="rotate(150 25 25)"/>
+  <circle cx="25" cy="25" r="3.5" fill="#61DAFB"/>
+  <text x="54" y="33" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="21" letter-spacing="-0.5">React</text>
+</svg>

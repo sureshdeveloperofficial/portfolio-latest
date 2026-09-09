@@ -124,16 +124,16 @@ export default function MotionCards() {
     return (
         <section
             ref={sectionRef}
-            className="motion-card-section" id="motion-card-section">
+            className="motion-card-section" id="projects">
             {/* ─── Part 1: Bold Heading Text with SVG Sticker Placeholders ─── */}
             <div className="motion-card__heading">
                 <h2 className="motion-card__title">
-                    an agency built
+                    engineered for scale.
                     <br />
-                    for the future.
+                    built for impact.
                 </h2>
                 <p className="motion-card__subtitle">
-                    from TV to TikTok.
+                    from microservices to UI.
                     {/* SVG sticker placeholder — top-right area */}
                     <span className="motion-card__sticker motion-card__sticker--top">
                         <img
@@ -159,58 +159,73 @@ export default function MotionCards() {
                     />
                 </div>
 
-
-                {/* 4 Photo Cards */}
+                {/* 4 Flagship Project Cards */}
                 <div ref={containerRef} className="motion-card__cards">
                     <div className="motion-card__card motion-card__card--1">
                         <div className="motion-card__card-image">
                             <img
-                                src="https://cdn.prod.website-files.com/683703490bc01e1b8c052e06/686b8e614494dac669a4099c_c310914b5a1a573b4c7499e9531f8d52_DE.avif"
+                                src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80"
                                 loading="lazy"
-                                width={1000}
-                                height={1000}
-                                alt=""
+                                width={800}
+                                height={800}
+                                alt="Marksorting - Machinery Lifecycle Platform"
                                 className="cover-image"
                             />
+                            <div className="motion-card__card-badge">
+                                <h4>Marksorting Platform</h4>
+                                <span>NestJS • BullMQ • Redis • Prisma</span>
+                            </div>
                         </div>
                     </div>
 
                     <div className="motion-card__card motion-card__card--2">
                         <div className="motion-card__card-image">
                             <img
-                                src="https://cdn.prod.website-files.com/683703490bc01e1b8c052e06/686b8e607142a7a25157d9dd_1875b9852ca289170917f9060c95b6a4_BolpuntJapie.avif"
+                                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80"
                                 loading="lazy"
-                                width={1000}
-                                height={1000}
-                                alt=""
+                                width={800}
+                                height={800}
+                                alt="Onetouch Multi-Tenant Enterprise ERP"
                                 className="cover-image"
                             />
+                            <div className="motion-card__card-badge">
+                                <h4>Onetouch Enterprise ERP</h4>
+                                <span>React • Node.js • Knex • MySQL</span>
+                            </div>
                         </div>
                     </div>
 
                     <div className="motion-card__card motion-card__card--3">
                         <div className="motion-card__card-image">
                             <img
-                                src="https://cdn.prod.website-files.com/683703490bc01e1b8c052e06/686b8e60ba19eb1109d3daa5_b1280272f47b3cd3ea25b91391935efa_RonaldoMassage.avif"
+                                src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80"
                                 loading="lazy"
-                                width={1000}
-                                height={1000}
-                                alt=""
+                                width={800}
+                                height={800}
+                                alt="SkyNet Shipping Integration"
                                 className="cover-image"
                             />
+                            <div className="motion-card__card-badge">
+                                <h4>SkyNet Logistics Plugin</h4>
+                                <span>.NET 9 • CQRS • Shopify & Woo</span>
+                            </div>
                         </div>
                     </div>
 
                     <div className="motion-card__card motion-card__card--4">
                         <div className="motion-card__card-image">
                             <img
-                                src="https://cdn.prod.website-files.com/683703490bc01e1b8c052e06/686b8e607d351d1335f06e04_f1aafb2150d81c3990c906d901d2e7e4_Esprix.avif"
+                                src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80"
                                 loading="lazy"
-                                width={1000}
-                                height={1000}
-                                alt=""
+                                width={800}
+                                height={800}
+                                alt="AI Tools & Open Source Starter"
                                 className="cover-image"
                             />
+                            <div className="motion-card__card-badge">
+                                <h4>AI & Open Source</h4>
+                                <span>FastAPI AI • PyPI • 634+ npm dl</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -218,13 +233,13 @@ export default function MotionCards() {
                 {/* Floating labels — positioned freely over the cards area */}
                 <div ref={containerRef} className="motion-card__floating-labels">
                     <div className="motion-card__floating-label motion-card__floating-label--pink">
-                        <p className="motion-card__floating-text">girls just wanna have fun!</p>
+                        <p className="motion-card__floating-text">clean architecture & cqrs</p>
                     </div>
                     <div className="motion-card__floating-label motion-card__floating-label--orange">
-                        <p className="motion-card__floating-text">mainstream is not a dirty word</p>
+                        <p className="motion-card__floating-text">75% api latency reduction</p>
                     </div>
                     <div className="motion-card__floating-label motion-card__floating-label--red">
-                        <p className="motion-card__floating-text">arrogance = old fashioned</p>
+                        <p className="motion-card__floating-text">production hardened</p>
                     </div>
                 </div>
             </div>
@@ -232,10 +247,10 @@ export default function MotionCards() {
             {/* ─── Part 3: Bottom Paragraph Text ─── */}
             <div className="motion-card__footer-text">
                 <p className="motion-card__description">
-                    To reach the new generation you need to know where
-                    they are. We are a true 360° agency, working the
-                    whole spectrum from TikTok content to TVC and from influencer
-                    collabs to out of home spectaculars.
+                    Software Developer & Freelance Engineer with 3 years of hands-on experience delivering
+                    production-grade web applications. Available for high-impact client projects, contract development,
+                    and full-time roles: from atomic order state machines and chunked Excel ingestion pipelines to
+                    eliminating database query bottlenecks and building CPU-optimized AI services.
                 </p>
             </div>
         </section>

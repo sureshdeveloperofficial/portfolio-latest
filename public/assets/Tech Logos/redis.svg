@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 50" fill="none">
+  <path d="M7 26L25 15L43 26L25 37L7 26Z" fill="#DC382D"/>
+  <path d="M7 26L25 37V41L7 30V26Z" fill="#A82820"/>
+  <path d="M43 26L25 37V41L43 30V26Z" fill="#881F18"/>
+  <text x="52" y="33" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="22" letter-spacing="-0.5">Redis</text>
+</svg>

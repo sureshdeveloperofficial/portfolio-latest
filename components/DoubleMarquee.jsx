@@ -94,7 +94,7 @@ export default function DoubleMarquee() {
             {/* Left: Text + Blob */}
             <div className="marquee-left">
                 <div className="marquee-text-container">
-                    <h2>proud to have<br />worked <span className="text-with">with:</span></h2>
+                    <h2>technologies i<br />build <span className="text-with">with:</span></h2>
                     <svg xmlns="http://www.w3.org/2000/svg" className="marquee-underline" viewBox="0 0 132 5" fill="none">
                         <path d="M1 2.08377C44.3458 3.90451 87.9791 5.71442 131 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 50" fill="none">
+  <rect x="5" y="5" width="40" height="40" rx="8" fill="#3178C6"/>
+  <text x="13" y="34" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="24">TS</text>
+  <text x="56" y="33" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="20" letter-spacing="-0.5">TypeScript</text>
+</svg>

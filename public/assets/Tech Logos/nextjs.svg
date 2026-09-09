@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 50" fill="none">
+  <circle cx="25" cy="25" r="18" fill="#000000" stroke="#ffffff" stroke-width="2"/>
+  <path d="M20 16V34M31 16L19 33" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="54" y="33" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="21" letter-spacing="-0.5">Next.js</text>
+</svg>
