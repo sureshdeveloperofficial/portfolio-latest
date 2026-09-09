@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import GridScan from './GridScan';
+import MagicBento, { MagicBentoCard } from './MagicBento';
 
 export default function Showreel() {
     const sectionRef = useRef(null);
@@ -92,50 +93,9 @@ export default function Showreel() {
             ScrollTrigger.refresh();
         }, 600);
 
-        // ─── 3. Interactive 3D Tilt & Specular Cursor Spotlight ───
-        const cards = sectionRef.current.querySelectorAll('.showreel__card-interactive');
-        const cleanups = [];
-
-        cards.forEach((card) => {
-            const onMouseMove = (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = (e.clientX - rect.left) / rect.width - 0.5;
-                const y = (e.clientY - rect.top) / rect.height - 0.5;
-
-                card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
-                card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
-
-                gsap.to(card, {
-                    rotationY: x * 12,
-                    rotationX: -y * 12,
-                    transformPerspective: 900,
-                    duration: 0.25,
-                    ease: 'power1.out',
-                });
-            };
-
-            const onMouseLeave = () => {
-                gsap.to(card, {
-                    rotationY: 0,
-                    rotationX: 0,
-                    duration: 0.6,
-                    ease: 'power2.out',
-                });
-            };
-
-            card.addEventListener('mousemove', onMouseMove);
-            card.addEventListener('mouseleave', onMouseLeave);
-
-            cleanups.push(() => {
-                card.removeEventListener('mousemove', onMouseMove);
-                card.removeEventListener('mouseleave', onMouseLeave);
-            });
-        });
-
         return () => {
             clearTimeout(refreshTimer);
             observer.disconnect();
-            cleanups.forEach((fn) => fn());
             ScrollTrigger.getAll().forEach((t) => {
                 if (t.vars.trigger === sectionRef.current) t.kill();
             });
@@ -180,170 +140,231 @@ export default function Showreel() {
                     </h2>
                 </div>
 
-                {/* 4 Stat Metrics: Real-World Software Engineering */}
-                <div className="showreel__stats-grid">
-                    {/* Stat 1: Production Experience */}
-                    <div className="showreel__stat-card showreel__card-interactive showreel__stat-card--green">
-                        <div className="showreel__card-reticle showreel__card-reticle--tl" />
-                        <div className="showreel__card-reticle showreel__card-reticle--br" />
-                        <div className="showreel__stat-header">
-                            <span className="showreel__stat-tag">// PRODUCTION EXPERIENCE</span>
-                            <div className="showreel__stat-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <polyline points="16 18 22 12 16 6" />
-                                    <polyline points="8 6 2 12 8 18" />
-                                </svg>
-                            </div>
-                        </div>
-                        <div className="showreel__stat-number" ref={numYearsRef}>3+</div>
-                        <div className="showreel__stat-label">Years of Production Web & Backend Engineering</div>
-                    </div>
-
-                    {/* Stat 2: System Reliability */}
-                    <div className="showreel__stat-card showreel__card-interactive showreel__stat-card--orange">
-                        <div className="showreel__card-reticle showreel__card-reticle--tl" />
-                        <div className="showreel__card-reticle showreel__card-reticle--br" />
-                        <div className="showreel__stat-header">
-                            <span className="showreel__stat-tag">// SYSTEM RELIABILITY</span>
-                            <div className="showreel__stat-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                                    <polyline points="9 12 11 14 15 10" />
-                                </svg>
-                            </div>
-                        </div>
-                        <div className="showreel__stat-number" ref={numUptimeRef}>99.9%</div>
-                        <div className="showreel__stat-label">Production Service & API Uptime SLA Delivered</div>
-                    </div>
-
-                    {/* Stat 3: Production APIs */}
-                    <div className="showreel__stat-card showreel__card-interactive showreel__stat-card--pink">
-                        <div className="showreel__card-reticle showreel__card-reticle--tl" />
-                        <div className="showreel__card-reticle showreel__card-reticle--br" />
-                        <div className="showreel__stat-header">
-                            <span className="showreel__stat-tag">// PRODUCTION APIS</span>
-                            <div className="showreel__stat-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
-                                    <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
-                                    <line x1="6" y1="6" x2="6.01" y2="6" />
-                                    <line x1="6" y1="18" x2="6.01" y2="18" />
-                                </svg>
-                            </div>
-                        </div>
-                        <div className="showreel__stat-number" ref={numApisRef}>50+</div>
-                        <div className="showreel__stat-label">Scalable Microservices, Webhooks & APIs Shipped</div>
-                    </div>
-
-                    {/* Stat 4: Low-Latency Speed */}
-                    <div className="showreel__stat-card showreel__card-interactive showreel__stat-card--blue">
-                        <div className="showreel__card-reticle showreel__card-reticle--tl" />
-                        <div className="showreel__card-reticle showreel__card-reticle--br" />
-                        <div className="showreel__stat-header">
-                            <span className="showreel__stat-tag">// LOW-LATENCY SPEED</span>
-                            <div className="showreel__stat-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-                                </svg>
-                            </div>
-                        </div>
-                        <div className="showreel__stat-number" ref={numLatencyRef}>&lt;100ms</div>
-                        <div className="showreel__stat-label">P95 Response Time via Redis Caching &amp; DB Indexing</div>
-                    </div>
-                </div>
-
-                {/* Open Source & Achievements */}
-                <div className="showreel__projects-grid">
-                    {/* Project 1 */}
-                    <div className="showreel__project-box showreel__card-interactive">
-                        <div className="showreel__card-reticle showreel__card-reticle--tl" />
-                        <div className="showreel__card-reticle showreel__card-reticle--br" />
-                        <div>
-                            <div className="showreel__project-top">
-                                <span className="showreel__project-tag showreel__project-tag--orange">
-                                    <span className="showreel__project-dot" />
-                                    AI Microservice • PyPI
-                                </span>
-                                <div className="showreel__project-arrow" aria-hidden="true">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                        <line x1="7" y1="17" x2="17" y2="7" />
-                                        <polyline points="7 7 17 7 17 17" />
+                {/* React Bits MagicBento Interactive Grid Wrapper */}
+                <MagicBento
+                    glowColor="147, 51, 234"
+                    spotlightRadius={360}
+                    enableStars={true}
+                    enableSpotlight={true}
+                    enableBorderGlow={true}
+                    enableTilt={true}
+                    enableMagnetism={true}
+                    clickEffect={true}
+                >
+                    {/* 4 Stat Metrics: Real-World Software Engineering */}
+                    <div className="showreel__stats-grid">
+                        {/* Stat 1: Production Experience */}
+                        <MagicBentoCard
+                            className="showreel__stat-card showreel__stat-card--green"
+                            glowColor="69, 219, 140"
+                            particleCount={12}
+                            enableTilt={true}
+                            enableMagnetism={true}
+                            clickEffect={true}
+                        >
+                            <div className="showreel__card-reticle showreel__card-reticle--tl" />
+                            <div className="showreel__card-reticle showreel__card-reticle--br" />
+                            <div className="showreel__stat-header">
+                                <span className="showreel__stat-tag">// PRODUCTION EXPERIENCE</span>
+                                <div className="showreel__stat-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <polyline points="16 18 22 12 16 6" />
+                                        <polyline points="8 6 2 12 8 18" />
                                     </svg>
                                 </div>
                             </div>
-                            <h3 className="showreel__project-title">background-remover-model</h3>
-                            <p className="showreel__project-desc">
-                                Production FastAPI service engineered for CPU-optimized image and video background removal. Published on PyPI & GitHub.
-                            </p>
-                        </div>
-                        <div className="showreel__tech-chips">
-                            <span className="showreel__tech-chip">FastAPI</span>
-                            <span className="showreel__tech-chip">Python</span>
-                            <span className="showreel__tech-chip">OpenCV</span>
-                            <span className="showreel__tech-chip">Docker</span>
-                        </div>
-                    </div>
+                            <div className="showreel__stat-number" ref={numYearsRef}>3+</div>
+                            <div className="showreel__stat-label">Years of Production Web & Backend Engineering</div>
+                        </MagicBentoCard>
 
-                    {/* Project 2 */}
-                    <div className="showreel__project-box showreel__card-interactive">
-                        <div className="showreel__card-reticle showreel__card-reticle--tl" />
-                        <div className="showreel__card-reticle showreel__card-reticle--br" />
-                        <div>
-                            <div className="showreel__project-top">
-                                <span className="showreel__project-tag showreel__project-tag--cyan">
-                                    <span className="showreel__project-dot" />
-                                    Open Source Tool
-                                </span>
-                                <div className="showreel__project-arrow" aria-hidden="true">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                        <line x1="7" y1="17" x2="17" y2="7" />
-                                        <polyline points="7 7 17 7 17 17" />
+                        {/* Stat 2: System Reliability */}
+                        <MagicBentoCard
+                            className="showreel__stat-card showreel__stat-card--orange"
+                            glowColor="255, 140, 66"
+                            particleCount={12}
+                            enableTilt={true}
+                            enableMagnetism={true}
+                            clickEffect={true}
+                        >
+                            <div className="showreel__card-reticle showreel__card-reticle--tl" />
+                            <div className="showreel__card-reticle showreel__card-reticle--br" />
+                            <div className="showreel__stat-header">
+                                <span className="showreel__stat-tag">// SYSTEM RELIABILITY</span>
+                                <div className="showreel__stat-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                                        <polyline points="9 12 11 14 15 10" />
                                     </svg>
                                 </div>
                             </div>
-                            <h3 className="showreel__project-title">Suresh SVG Converter v0.2.0</h3>
-                            <p className="showreel__project-desc">
-                                High-speed parallelized image-to-SVG vectorization engine achieving approximately 5-second turnaround times.
-                            </p>
-                        </div>
-                        <div className="showreel__tech-chips">
-                            <span className="showreel__tech-chip">TypeScript</span>
-                            <span className="showreel__tech-chip">Node.js</span>
-                            <span className="showreel__tech-chip">Vectorization</span>
-                            <span className="showreel__tech-chip">CLI</span>
-                        </div>
-                    </div>
+                            <div className="showreel__stat-number" ref={numUptimeRef}>99.9%</div>
+                            <div className="showreel__stat-label">Production Service & API Uptime SLA Delivered</div>
+                        </MagicBentoCard>
 
-                    {/* Project 3 */}
-                    <div className="showreel__project-box showreel__card-interactive">
-                        <div className="showreel__card-reticle showreel__card-reticle--tl" />
-                        <div className="showreel__card-reticle showreel__card-reticle--br" />
-                        <div>
-                            <div className="showreel__project-top">
-                                <span className="showreel__project-tag showreel__project-tag--pink">
-                                    <span className="showreel__project-dot" />
-                                    npm Package • 634+ DLs
-                                </span>
-                                <div className="showreel__project-arrow" aria-hidden="true">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                        <line x1="7" y1="17" x2="17" y2="7" />
-                                        <polyline points="7 7 17 7 17 17" />
+                        {/* Stat 3: Production APIs */}
+                        <MagicBentoCard
+                            className="showreel__stat-card showreel__stat-card--pink"
+                            glowColor="255, 159, 252"
+                            particleCount={12}
+                            enableTilt={true}
+                            enableMagnetism={true}
+                            clickEffect={true}
+                        >
+                            <div className="showreel__card-reticle showreel__card-reticle--tl" />
+                            <div className="showreel__card-reticle showreel__card-reticle--br" />
+                            <div className="showreel__stat-header">
+                                <span className="showreel__stat-tag">// PRODUCTION APIS</span>
+                                <div className="showreel__stat-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
+                                        <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
+                                        <line x1="6" y1="6" x2="6.01" y2="6" />
+                                        <line x1="6" y1="18" x2="6.01" y2="18" />
                                     </svg>
                                 </div>
                             </div>
-                            <h3 className="showreel__project-title">suresh-node-ts-starter</h3>
-                            <p className="showreel__project-desc">
-                                Production TypeScript backend template featuring Express, Prisma, PostgreSQL, JWT auth, and Redis caching.
-                            </p>
-                        </div>
-                        <div className="showreel__tech-chips">
-                            <span className="showreel__tech-chip">Express</span>
-                            <span className="showreel__tech-chip">TypeScript</span>
-                            <span className="showreel__tech-chip">Prisma</span>
-                            <span className="showreel__tech-chip">Redis</span>
-                        </div>
+                            <div className="showreel__stat-number" ref={numApisRef}>50+</div>
+                            <div className="showreel__stat-label">Scalable Microservices, Webhooks & APIs Shipped</div>
+                        </MagicBentoCard>
+
+                        {/* Stat 4: Low-Latency Speed */}
+                        <MagicBentoCard
+                            className="showreel__stat-card showreel__stat-card--blue"
+                            glowColor="125, 249, 255"
+                            particleCount={12}
+                            enableTilt={true}
+                            enableMagnetism={true}
+                            clickEffect={true}
+                        >
+                            <div className="showreel__card-reticle showreel__card-reticle--tl" />
+                            <div className="showreel__card-reticle showreel__card-reticle--br" />
+                            <div className="showreel__stat-header">
+                                <span className="showreel__stat-tag">// LOW-LATENCY SPEED</span>
+                                <div className="showreel__stat-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div className="showreel__stat-number" ref={numLatencyRef}>&lt;100ms</div>
+                            <div className="showreel__stat-label">P95 Response Time via Redis Caching &amp; DB Indexing</div>
+                        </MagicBentoCard>
                     </div>
-                </div>
+
+                    {/* Open Source & Featured Engineering Projects */}
+                    <div className="showreel__projects-grid">
+                        {/* Project 1 */}
+                        <MagicBentoCard
+                            className="showreel__project-box"
+                            glowColor="255, 140, 66"
+                            particleCount={14}
+                            enableTilt={true}
+                            enableMagnetism={true}
+                            clickEffect={true}
+                        >
+                            <div className="showreel__card-reticle showreel__card-reticle--tl" />
+                            <div className="showreel__card-reticle showreel__card-reticle--br" />
+                            <div>
+                                <div className="showreel__project-top">
+                                    <span className="showreel__project-tag showreel__project-tag--orange">
+                                        <span className="showreel__project-dot" />
+                                        AI Microservice • PyPI
+                                    </span>
+                                    <div className="showreel__project-arrow" aria-hidden="true">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                            <line x1="7" y1="17" x2="17" y2="7" />
+                                            <polyline points="7 7 17 7 17 17" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <h3 className="showreel__project-title">background-remover-model</h3>
+                                <p className="showreel__project-desc">
+                                    Production FastAPI service engineered for CPU-optimized image and video background removal. Published on PyPI & GitHub.
+                                </p>
+                            </div>
+                            <div className="showreel__tech-chips">
+                                <span className="showreel__tech-chip">FastAPI</span>
+                                <span className="showreel__tech-chip">Python</span>
+                                <span className="showreel__tech-chip">OpenCV</span>
+                                <span className="showreel__tech-chip">Docker</span>
+                            </div>
+                        </MagicBentoCard>
+
+                        {/* Project 2 */}
+                        <MagicBentoCard
+                            className="showreel__project-box"
+                            glowColor="125, 249, 255"
+                            particleCount={14}
+                            enableTilt={true}
+                            enableMagnetism={true}
+                            clickEffect={true}
+                        >
+                            <div className="showreel__card-reticle showreel__card-reticle--tl" />
+                            <div className="showreel__card-reticle showreel__card-reticle--br" />
+                            <div>
+                                <div className="showreel__project-top">
+                                    <span className="showreel__project-tag showreel__project-tag--cyan">
+                                        <span className="showreel__project-dot" />
+                                        Open Source Tool
+                                    </span>
+                                    <div className="showreel__project-arrow" aria-hidden="true">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                            <line x1="7" y1="17" x2="17" y2="7" />
+                                            <polyline points="7 7 17 7 17 17" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <h3 className="showreel__project-title">Suresh SVG Converter v0.2.0</h3>
+                                <p className="showreel__project-desc">
+                                    High-speed parallelized image-to-SVG vectorization engine achieving approximately 5-second turnaround times.
+                                </p>
+                            </div>
+                            <div className="showreel__tech-chips">
+                                <span className="showreel__tech-chip">TypeScript</span>
+                                <span className="showreel__tech-chip">Node.js</span>
+                                <span className="showreel__tech-chip">Vectorization</span>
+                                <span className="showreel__tech-chip">CLI</span>
+                            </div>
+                        </MagicBentoCard>
+
+                        {/* Project 3 */}
+                        <MagicBentoCard
+                            className="showreel__project-box"
+                            glowColor="255, 159, 252"
+                            particleCount={14}
+                            enableTilt={true}
+                            enableMagnetism={true}
+                            clickEffect={true}
+                        >
+                            <div className="showreel__card-reticle showreel__card-reticle--tl" />
+                            <div className="showreel__card-reticle showreel__card-reticle--br" />
+                            <div>
+                                <div className="showreel__project-top">
+                                    <span className="showreel__project-tag showreel__project-tag--pink">
+                                        <span className="showreel__project-dot" />
+                                        npm Package • 634+ DLs
+                                    </span>
+                                    <div className="showreel__project-arrow" aria-hidden="true">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                            <line x1="7" y1="17" x2="17" y2="7" />
+                                            <polyline points="7 7 17 7 17 17" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <h3 className="showreel__project-title">suresh-node-ts-starter</h3>
+                                <p className="showreel__project-desc">
+                                    Production TypeScript backend template featuring Express, Prisma, PostgreSQL, JWT auth, and Redis caching.
+                                </p>
+                            </div>
+                            <div className="showreel__tech-chips">
+                                <span className="showreel__tech-chip">Express</span>
+                                <span className="showreel__tech-chip">TypeScript</span>
+                                <span className="showreel__tech-chip">Prisma</span>
+                                <span className="showreel__tech-chip">Redis</span>
+                            </div>
+                        </MagicBentoCard>
+                    </div>
+                </MagicBento>
 
                 {/* Certifications & Badges Bar */}
                 <div className="showreel__certs-bar">
