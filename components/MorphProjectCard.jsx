@@ -55,6 +55,65 @@ function hexToRgb(hex) {
     return `${(num >> 16) & 255}, ${(num >> 8) & 255}, ${num & 255}`;
 }
 
+// Curated theme palettes matched to project colors from the portfolio's UI design system
+const PROJECT_THEMES = {
+    // SkyNet: Cloud Logistics Green (UI Token: --color-green #29725f)
+    '#29725f': {
+        panelStart: '#1e5648',
+        panelEnd: '#133a30',
+        cardHoverBg: '#29725f',
+        glow: 'rgba(41, 114, 95, 0.45)',
+        badgeText: '#a4ebd2',
+    },
+    // Marksorting: Platform ERP Orange (UI Token: --color-orange #f5693c)
+    '#f5693c': {
+        panelStart: '#d65125',
+        panelEnd: '#ac3a14',
+        cardHoverBg: '#f5693c',
+        glow: 'rgba(245, 105, 60, 0.45)',
+        badgeText: '#ffe3d8',
+    },
+    // Premium Mess: Dubai SaaS Blue (UI Token: --color-lightblue #82a0ff)
+    '#82a0ff': {
+        panelStart: '#2d50d6',
+        panelEnd: '#1a359c',
+        cardHoverBg: '#476df0',
+        glow: 'rgba(68, 106, 240, 0.45)',
+        badgeText: '#d7e3ff',
+    },
+    // AI & Open Source: Systems Maroon (UI Token: --color-maroon #a0325a)
+    '#a0325a': {
+        panelStart: '#822244',
+        panelEnd: '#59132d',
+        cardHoverBg: '#a0325a',
+        glow: 'rgba(160, 50, 90, 0.45)',
+        badgeText: '#ffd4e3',
+    },
+    // Onetouch: Enterprise ERP Pink (UI Token: --color-pink #f0befa)
+    '#f0befa': {
+        panelStart: '#7c2b82',
+        panelEnd: '#56175b',
+        cardHoverBg: '#94349c',
+        glow: 'rgba(148, 52, 156, 0.45)',
+        badgeText: '#fedfff',
+    },
+};
+
+function getProjectTheme(hex) {
+    if (!hex) return PROJECT_THEMES['#f5693c'];
+    const key = hex.toLowerCase();
+    if (PROJECT_THEMES[key]) {
+        return PROJECT_THEMES[key];
+    }
+    return {
+        panelStart: hex,
+        panelEnd: hex,
+        cardHoverBg: hex,
+        glow: 'rgba(0, 0, 0, 0.25)',
+        badgeText: '#ffffff',
+    };
+}
+
 export default function MorphProjectCard({
     title,
     description,
@@ -92,6 +151,7 @@ export default function MorphProjectCard({
         : [];
 
     const rgbValue = hexToRgb(accentColor);
+    const theme = getProjectTheme(accentColor);
     const restingIcon = PROJECT_ICONS[iconType] || PROJECT_ICONS.server;
 
     const handleActionClick = (e, type) => {
@@ -107,6 +167,11 @@ export default function MorphProjectCard({
             style={{
                 '--card-accent': accentColor,
                 '--card-accent-rgb': rgbValue,
+                '--card-panel-start': theme.panelStart,
+                '--card-panel-end': theme.panelEnd,
+                '--card-hover-bg': theme.cardHoverBg,
+                '--card-glow': theme.glow,
+                '--card-badge-text': theme.badgeText,
             }}
             tabIndex={0}
             role="article"
