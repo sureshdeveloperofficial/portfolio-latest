@@ -208,6 +208,11 @@
     color: var(--color-dark);
 }
 
+.badge-orange {
+    background-color: var(--color-orange);
+    color: var(--color-dark);
+}
+
 .nav-work-title {
     margin-top: 50px;
     font-size: 1.3rem;

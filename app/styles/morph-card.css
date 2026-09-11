@@ -1,0 +1,402 @@
+/* ─── MorphProjectCard Styles (UI Design Matched & Full Content) ─────────── */
+
+.morph-card {
+    --card-accent: #f5693c;
+    --card-accent-rgb: 245, 105, 60;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    border-radius: 22px;
+    border: 1px solid rgba(26, 26, 26, 0.08);
+    text-align: center;
+    overflow: hidden;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0;
+    transition: background-color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.35s ease,
+                transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 10px 30px -8px rgba(0, 0, 0, 0.08),
+                0 2px 8px -2px rgba(0, 0, 0, 0.04);
+}
+
+/* Hover Accent Shift — Card adopts project theme color */
+.morph-card:hover {
+    background-color: var(--card-accent);
+    border-color: rgba(0, 0, 0, 0.14);
+    box-shadow: 0 22px 50px -10px rgba(var(--card-accent-rgb), 0.45),
+                0 0 25px rgba(var(--card-accent-rgb), 0.22);
+    z-index: 25;
+    transform: translateY(-5px);
+}
+
+/* ─── Top Animated Blob ─── */
+.morph-card__blob {
+    height: 10px;
+    width: 70%;
+    border-radius: 0 0 30px 30px;
+    margin: 0 auto;
+    background-color: var(--card-accent);
+    visibility: visible;
+    transition: height 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+    flex-shrink: 0;
+}
+
+.morph-card:hover .morph-card__blob {
+    height: 0;
+    opacity: 0;
+}
+
+/* ─── Center Morphing Image/Bubble ─── */
+.morph-card__img {
+    display: flex;
+    flex-direction: column;
+    margin: 22px auto 10px auto;
+    width: 76px;
+    height: 76px;
+    background-color: var(--card-accent);
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.48s cubic-bezier(0.2, 0.9, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 22px -4px rgba(var(--card-accent-rgb), 0.45);
+    flex-shrink: 0;
+}
+
+/* Resting State Icon */
+.morph-card__resting-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    transition: opacity 0.22s ease, transform 0.3s ease;
+}
+
+.morph-card:hover .morph-card__resting-icon {
+    opacity: 0;
+    transform: scale(0.5);
+    position: absolute;
+    pointer-events: none;
+}
+
+/* Hover Expanded Morph Container — Opens sleek contrast panel */
+.morph-card:hover .morph-card__img {
+    width: 100%;
+    height: 73%;
+    border-radius: 22px 22px 0 0;
+    margin: 0 auto;
+    background-color: #11131a;
+    z-index: 10;
+    padding: 22px 20px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+    box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.55);
+}
+
+/* Content revealed inside morphed container */
+.morph-card__expanded-content {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.32s ease 0.12s, transform 0.38s cubic-bezier(0.16, 1, 0.3, 1) 0.12s;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    pointer-events: none;
+}
+
+.morph-card:hover .morph-card__expanded-content {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.morph-card__expanded-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.09);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--card-accent);
+    margin-bottom: 6px;
+    align-self: flex-start;
+}
+
+.morph-card__expanded-badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--card-accent);
+    box-shadow: 0 0 6px var(--card-accent);
+}
+
+.morph-card__expanded-desc {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.84rem;
+    line-height: 1.45;
+    color: #e2e8f0;
+    margin: 0 0 10px 0;
+    font-weight: 400;
+}
+
+.morph-card__expanded-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+}
+
+.morph-card__tech-pill {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.9);
+    letter-spacing: 0.02em;
+}
+
+/* ─── Resting State Body (Design Filled — No Blank Space) ─── */
+.morph-card__resting-body {
+    width: 100%;
+    padding: 0 18px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: opacity 0.25s ease, transform 0.28s ease;
+    flex: 1;
+    justify-content: space-between;
+}
+
+.morph-card:hover .morph-card__resting-body {
+    opacity: 0;
+    transform: translateY(14px);
+    pointer-events: none;
+    position: absolute;
+}
+
+.morph-card__title {
+    padding: 6px 0 2px;
+    font-family: 'Epilogue', sans-serif;
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: var(--color-dark, #1a1a1a);
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    margin: 0;
+}
+
+.morph-card__title span {
+    display: block;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: rgba(26, 26, 26, 0.62);
+    margin-top: 3px;
+}
+
+.morph-card__resting-badge {
+    margin-top: 4px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.7rem;
+    color: var(--card-accent);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Decorative Divider */
+.morph-card__divider {
+    width: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 12px 0 10px;
+}
+
+.morph-card__divider-line {
+    flex: 1;
+    height: 1px;
+    background: rgba(26, 26, 26, 0.08);
+}
+
+.morph-card__divider-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: var(--card-accent);
+}
+
+/* Resting Tech Stack Preview Pills */
+.morph-card__resting-tech {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    margin: 4px 0 12px;
+    max-width: 100%;
+}
+
+.morph-card__resting-pill {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 9999px;
+    background: #f5f2eb;
+    border: 1px solid rgba(26, 26, 26, 0.06);
+    color: var(--color-dark, #1a1a1a);
+    letter-spacing: 0.01em;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Resting Footer with Interactive Hint */
+.morph-card__resting-footer {
+    margin-top: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.morph-card__explore-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: rgba(26, 26, 26, 0.55);
+    background: rgba(26, 26, 26, 0.03);
+    border: 1px dashed rgba(26, 26, 26, 0.14);
+    padding: 4px 12px;
+    border-radius: 9999px;
+    transition: all 0.25s ease;
+}
+
+.morph-card__explore-arrow {
+    transition: transform 0.2s ease;
+}
+
+.morph-card:hover .morph-card__explore-arrow {
+    transform: translateX(3px);
+}
+
+/* ─── Bottom Actions Bar (Revealed on Hover) ─── */
+.morph-card__actions {
+    position: absolute;
+    bottom: 16px;
+    left: 0;
+    right: 0;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.25s ease 0.1s, transform 0.25s ease 0.1s;
+    z-index: 30;
+    pointer-events: none;
+}
+
+.morph-card:hover .morph-card__actions {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.morph-card__action-text {
+    font-family: 'Epilogue', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 800;
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    margin: 0;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 140px;
+}
+
+.morph-card__action-icons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.morph-card__icon-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #11131a;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.morph-card__icon-btn:hover {
+    transform: scale(1.1) translateY(-2px);
+    background: #ffffff;
+    color: #11131a;
+}
+
+/* ─── Responsive adjustments ─── */
+@media (max-width: 768px) {
+    .morph-card__img {
+        width: 66px;
+        height: 66px;
+        margin: 18px auto 8px;
+    }
+
+    .morph-card__title {
+        font-size: 1.25rem;
+    }
+
+    .morph-card__title span {
+        font-size: 0.95rem;
+    }
+
+    .morph-card__resting-body {
+        padding: 0 14px 16px;
+    }
+
+    .morph-card__resting-pill {
+        font-size: 0.68rem;
+        padding: 2px 7px;
+    }
+
+    .morph-card:hover .morph-card__img {
+        height: 75%;
+        padding: 16px 14px;
+    }
+
+    .morph-card__expanded-desc {
+        font-size: 0.78rem;
+    }
+}

@@ -305,6 +305,15 @@ export default function Navbar() {
                         {/* Pop-out Box for Left Side */}
                         <div className="nav-popout nav-work-box">
                             <div className="nav-popout-inner">
+                                <a href="https://premiummess.com/" target="_blank" rel="noopener noreferrer" className="nav-work-item" style={{ textDecoration: 'none', color: 'inherit', display: 'flex' }}>
+                                    <div className="nav-work-item__img-wrap">
+                                        <img src="/assets/projects/premium-mess.png" loading="eager" alt="Premium Mess Dubai Client" className="nav-work-item__img" />
+                                    </div>
+                                    <div className="nav-work-item__text">
+                                        <span className="nav-work-badge badge-orange">dubai client saas ↗</span>
+                                        <h4 className="nav-work-title">premium mess • meal subscription & erp</h4>
+                                    </div>
+                                </a>
                                 <div className="nav-work-item">
                                     <div className="nav-work-item__img-wrap">
                                         <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80" loading="eager" alt="Marksorting Platform" className="nav-work-item__img" />

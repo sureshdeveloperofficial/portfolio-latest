@@ -1,0 +1,156 @@
+/* ─── GSAP Continuous Auto-Scroll Carousel Styles ─────────────────────────── */
+
+.gsap-carousel {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding: 20px 0 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    user-select: none;
+    touch-action: pan-y;
+}
+
+/* ─── Carousel Track Window ─── */
+.gsap-carousel__viewport {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 25px 0 35px;
+    cursor: grab;
+    -webkit-mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 4%,
+        black 96%,
+        transparent 100%
+    );
+    mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 4%,
+        black 96%,
+        transparent 100%
+    );
+}
+
+.gsap-carousel__viewport:active {
+    cursor: grabbing;
+}
+
+.gsap-carousel__track {
+    display: flex;
+    align-items: center;
+    will-change: transform;
+    flex-wrap: nowrap;
+}
+
+/* ─── Project Card Item Wrapper ─── */
+.gsap-carousel__card {
+    position: relative;
+    flex-shrink: 0;
+    border-radius: 20px;
+    outline: none;
+    background: transparent;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gsap-carousel__card:focus-visible {
+    outline: 2px solid var(--color-pink, #f0befa);
+    outline-offset: 4px;
+}
+
+/* ─── Bottom Navigation & Status Bar ─── */
+.gsap-carousel__controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 15px;
+    z-index: 15;
+}
+
+.gsap-carousel__nav-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 1px solid rgba(26, 26, 26, 0.1);
+    color: var(--color-dark, #1a1a1a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.22s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.gsap-carousel__nav-btn:hover {
+    background: var(--color-dark, #1a1a1a);
+    color: #ffffff;
+    transform: scale(1.08);
+    border-color: var(--color-dark, #1a1a1a);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.gsap-carousel__nav-btn:active {
+    transform: scale(0.95);
+}
+
+/* ─── Status Badge (UI Matched) ─── */
+.gsap-carousel__status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 18px;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(26, 26, 26, 0.08);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--color-dark, #1a1a1a);
+    letter-spacing: 0.02em;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+}
+
+.gsap-carousel__status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: var(--color-green, #29725f);
+    box-shadow: 0 0 8px var(--color-green, #29725f);
+    animation: gsap-status-pulse 2s infinite ease-in-out;
+}
+
+@keyframes gsap-status-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.45; transform: scale(0.85); }
+}
+
+/* ─── Responsive Adjustments ─── */
+@media (max-width: 768px) {
+    .gsap-carousel {
+        padding: 10px 0;
+    }
+
+    .gsap-carousel__viewport {
+        padding: 15px 0 25px;
+    }
+
+    .gsap-carousel__status-badge {
+        font-size: 0.72rem;
+        padding: 5px 14px;
+    }
+
+    .gsap-carousel__nav-btn {
+        width: 36px;
+        height: 36px;
+    }
+}

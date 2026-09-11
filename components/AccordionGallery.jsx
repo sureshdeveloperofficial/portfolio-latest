@@ -193,6 +193,7 @@ export default function AccordionGallery({
             {items.map((item, i) => {
                 const isActive = i === active;
                 const Tag = item.link ? 'a' : 'div';
+                const isExternal = Boolean(item.link && item.link.startsWith('http'));
                 return (
                     <Tag
                         key={i}
@@ -200,6 +201,8 @@ export default function AccordionGallery({
                         className={`ag-panel${isActive ? ' ag-panel--active' : ''}`}
                         style={{ borderRadius: `${radius}px` }}
                         href={item.link || undefined}
+                        target={isExternal ? '_blank' : undefined}
+                        rel={isExternal ? 'noopener noreferrer' : undefined}
                         onClick={(e) => handleClick(i, e)}
                         onMouseEnter={() => handleEnter(i)}
                         onFocus={() => setActive(i)}
@@ -219,7 +222,10 @@ export default function AccordionGallery({
                             <span className="ag-panel__label" aria-hidden="true">
                                 <span className="ag-panel__bar" ref={(el) => (barRefs.current[i] = el)} />
                                 <span className="ag-panel__text" ref={(el) => (textRefs.current[i] = el)}>
-                                    <span className="ag-panel__title">{item.label}</span>
+                                    <span className="ag-panel__title">
+                                        {item.label}
+                                        {isExternal && <span style={{ fontSize: '0.85em', marginLeft: '6px', opacity: 0.9 }}>↗</span>}
+                                    </span>
                                     {item.tech && <span className="ag-panel__tech">{item.tech}</span>}
                                 </span>
                             </span>

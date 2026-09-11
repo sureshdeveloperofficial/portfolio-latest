@@ -23,5 +23,7 @@
 /* Vimeo hero video player + headline       */
 @import './styles/cursor.css';
 /* Custom cursor bubble + scribble overlay  */
+@import './styles/case-study-modal.css';
+/* Project Case Study deep-dive modal        */
 @import './styles/responsive.css';
 /* All media queries (tablet + mobile)      */

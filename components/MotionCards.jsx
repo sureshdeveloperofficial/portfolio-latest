@@ -4,88 +4,68 @@ import gsap from "gsap";
 import React, { useEffect, useRef } from "react";
 import { InertiaPlugin } from "gsap/InertiaPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import AccordionGallery from "./AccordionGallery";
+import { useState } from "react";
+import GsapProjectCarousel from "./GsapProjectCarousel";
+import ProjectCaseStudyModal from "./ProjectCaseStudyModal";
 
 gsap.registerPlugin(InertiaPlugin, ScrollTrigger);
 
 const PROJECT_ITEMS = [
     {
-        image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80",
-        label: "Marksorting Platform",
-        tech: "NestJS • BullMQ • Redis • Prisma",
-        link: "#projects",
-        alt: "Marksorting - Machinery Lifecycle Platform",
+        title: { main: "Premium Mess", sub: "Dubai SaaS" },
+        description: "Enterprise meal subscription platform with automated 30-day dynamic billing, dual-location delivery routing, and headless PDF tax invoices.",
+        tech: ["Next.js 16", "PostgreSQL", "Prisma", "Tailwind CSS"],
+        link: "https://premiummess.com/",
+        badge: "Dubai Client SaaS • Live",
+        accentColor: "#82a0ff",
+        iconType: "cloud",
+        hasCaseStudy: true,
     },
     {
-        image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80",
-        label: "Onetouch Enterprise ERP",
-        tech: "React • Node.js • Knex • MySQL",
+        title: { main: "Marksorting", sub: "Platform ERP" },
+        description: "Machinery lifecycle management system with BullMQ distributed message queues, Redis caching, and zero database query bottlenecks.",
+        tech: ["NestJS", "BullMQ", "Redis", "Prisma ORM"],
         link: "#projects",
-        alt: "Onetouch Multi-Tenant Enterprise ERP",
+        badge: "Enterprise Platform",
+        accentColor: "#f5693c",
+        iconType: "server",
     },
     {
-        image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80",
-        label: "SkyNet Logistics Plugin",
-        tech: ".NET 9 • CQRS • Shopify & Woo",
+        title: { main: "Onetouch", sub: "Enterprise ERP" },
+        description: "Multi-tenant ERP with granular RBAC permissions, sub-second reporting pipelines, and ACID Knex database transactions.",
+        tech: ["React.js", "Node.js", "Knex.js", "MySQL"],
         link: "#projects",
-        alt: "SkyNet Shipping Integration",
+        badge: "Multi-Tenant ERP",
+        accentColor: "#f0befa",
+        iconType: "database",
     },
     {
-        image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80",
-        label: "AI & Open Source Systems",
-        tech: "FastAPI AI • PyPI • 634+ npm dl",
+        title: { main: "SkyNet", sub: "Logistics Plugin" },
+        description: "Event-driven shipping gateway plugin handling carrier rates, label generation, and automated tracking sync across Shopify & WooCommerce.",
+        tech: [".NET 9", "CQRS", "Shopify API", "WooCommerce"],
         link: "#projects",
-        alt: "AI Tools & Open Source Starter",
+        badge: "Cloud Logistics",
+        accentColor: "#29725f",
+        iconType: "code",
+    },
+    {
+        title: { main: "AI & Open Source", sub: "Systems & CLI" },
+        description: "FastAPI AI microservices, PyPI packages, and open-source boilerplates downloaded over 634+ times by global developers.",
+        tech: ["FastAPI", "Python", "LangChain", "Docker"],
+        link: "https://github.com/sureshdeveloperofficial",
+        githubLink: "https://github.com/sureshdeveloperofficial",
+        badge: "Open Source Systems",
+        accentColor: "#a0325a",
+        iconType: "ai",
     },
 ];
 
 export default function MotionCards() {
     const sectionRef = useRef(null);
-    const containerRef = useRef(null);
+    const [isCaseStudyOpen, setIsCaseStudyOpen] = useState(false);
 
     useEffect(() => {
         const ctx = gsap.context(() => {
-            // Inertia on floating labels
-            const labels = document.querySelectorAll(".motion-card__floating-label");
-            labels.forEach((label) => {
-                let lastX = 0;
-                let lastY = 0;
-                let speedX = 0;
-                let speedY = 0;
-
-                const startRotation = gsap.getProperty(label, "rotation");
-                const startX = gsap.getProperty(label, "x");
-                const startY = gsap.getProperty(label, "y");
-
-                const onMove = (e) => {
-                    speedX = e.clientX - lastX;
-                    speedY = e.clientY - lastY;
-                    lastX = e.clientX;
-                    lastY = e.clientY;
-                };
-
-                const onEnter = (e) => {
-                    speedX = 0;
-                    speedY = 0;
-                    lastX = e.clientX;
-                    lastY = e.clientY;
-                };
-
-                const onLeave = () => {
-                    gsap.to(label, {
-                        inertia: {
-                            x: { velocity: speedX * 25, end: startX },
-                            y: { velocity: speedY * 25, end: startY },
-                            rotation: { velocity: speedX * 2, end: startRotation },
-                        },
-                    });
-                };
-
-                label.addEventListener("mousemove", onMove);
-                label.addEventListener("mouseenter", onEnter);
-                label.addEventListener("mouseleave", onLeave);
-            });
-
             // Entry Animations: Sticker Pop & Underline Draw
             const tl = gsap.timeline({
                 scrollTrigger: {
@@ -123,6 +103,14 @@ export default function MotionCards() {
         return () => ctx.revert();
     }, []);
 
+    const handleCardAction = (item, idx, payload) => {
+        if (payload?.type === 'casestudy' || item.hasCaseStudy) {
+            setIsCaseStudyOpen(true);
+        } else if (item.link && item.link.startsWith("http")) {
+            window.open(item.link, "_blank", "noopener,noreferrer");
+        }
+    };
+
     return (
         <section ref={sectionRef} className="motion-card" id="projects">
             {/* ─── Part 1: Top Heading Text ─── */}
@@ -145,7 +133,7 @@ export default function MotionCards() {
                 </svg>
             </div>
 
-            {/* ─── Part 2: Accordion Gallery Showcase & Blue Blob ─── */}
+            {/* ─── Part 2: GSAP Projects Carousel & Blue Blob ─── */}
             <div className="motion-card__cards-area">
                 {/* Blue SVG blob behind everything */}
                 <div className="motion-card__blob">
@@ -156,31 +144,20 @@ export default function MotionCards() {
                     />
                 </div>
 
-                {/* React Bits AccordionGallery Project Showcase */}
+                {/* GSAP Reusable Animated Project Carousel */}
                 <div className="motion-card__gallery-container">
-                    <AccordionGallery
+                    <GsapProjectCarousel
                         items={PROJECT_ITEMS}
                         defaultIndex={1}
-                        expandRatio={0.52}
-                        height={480}
-                        gap={14}
-                        radius={20}
-                        accentColor="var(--color-pink)"
-                        trigger="hover"
+                        autoPlay={true}
+                        autoPlayInterval={3500}
+                        activeScale={1.2}
+                        inactiveScale={0.86}
+                        cardWidth={310}
+                        cardHeight={420}
+                        gap={26}
+                        onCardClick={handleCardAction}
                     />
-                </div>
-
-                {/* Floating labels — positioned freely over the cards area */}
-                <div ref={containerRef} className="motion-card__floating-labels">
-                    <div className="motion-card__floating-label motion-card__floating-label--pink">
-                        <p className="motion-card__floating-text">clean architecture & cqrs</p>
-                    </div>
-                    <div className="motion-card__floating-label motion-card__floating-label--orange">
-                        <p className="motion-card__floating-text">75% api latency reduction</p>
-                    </div>
-                    <div className="motion-card__floating-label motion-card__floating-label--red">
-                        <p className="motion-card__floating-text">production hardened</p>
-                    </div>
                 </div>
             </div>
 
@@ -193,6 +170,12 @@ export default function MotionCards() {
                     eliminating database query bottlenecks and building CPU-optimized AI services.
                 </p>
             </div>
+
+            {/* ─── Case Study Modal for Live Dubai Project ─── */}
+            <ProjectCaseStudyModal
+                isOpen={isCaseStudyOpen}
+                onClose={() => setIsCaseStudyOpen(false)}
+            />
         </section>
     );
 }
