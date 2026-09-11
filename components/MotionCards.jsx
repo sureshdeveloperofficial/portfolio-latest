@@ -4,8 +4,40 @@ import gsap from "gsap";
 import React, { useEffect, useRef } from "react";
 import { InertiaPlugin } from "gsap/InertiaPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import AccordionGallery from "./AccordionGallery";
 
 gsap.registerPlugin(InertiaPlugin, ScrollTrigger);
+
+const PROJECT_ITEMS = [
+    {
+        image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80",
+        label: "Marksorting Platform",
+        tech: "NestJS • BullMQ • Redis • Prisma",
+        link: "#projects",
+        alt: "Marksorting - Machinery Lifecycle Platform",
+    },
+    {
+        image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80",
+        label: "Onetouch Enterprise ERP",
+        tech: "React • Node.js • Knex • MySQL",
+        link: "#projects",
+        alt: "Onetouch Multi-Tenant Enterprise ERP",
+    },
+    {
+        image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80",
+        label: "SkyNet Logistics Plugin",
+        tech: ".NET 9 • CQRS • Shopify & Woo",
+        link: "#projects",
+        alt: "SkyNet Shipping Integration",
+    },
+    {
+        image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80",
+        label: "AI & Open Source Systems",
+        tech: "FastAPI AI • PyPI • 634+ npm dl",
+        link: "#projects",
+        alt: "AI Tools & Open Source Starter",
+    },
+];
 
 export default function MotionCards() {
     const sectionRef = useRef(null);
@@ -13,47 +45,6 @@ export default function MotionCards() {
 
     useEffect(() => {
         const ctx = gsap.context(() => {
-            // Inertia on cards
-            const cards = document.querySelectorAll(".motion-card__card");
-            cards.forEach((card) => {
-                let lastX = 0;
-                let lastY = 0;
-                let speedX = 0;
-                let speedY = 0;
-
-                const startRotation = gsap.getProperty(card, "rotation");
-                const startX = gsap.getProperty(card, "x");
-                const startY = gsap.getProperty(card, "y");
-
-                const onMove = (e) => {
-                    speedX = e.clientX - lastX;
-                    speedY = e.clientY - lastY;
-                    lastX = e.clientX;
-                    lastY = e.clientY;
-                };
-
-                const onEnter = (e) => {
-                    speedX = 0;
-                    speedY = 0;
-                    lastX = e.clientX;
-                    lastY = e.clientY;
-                };
-
-                const onLeave = () => {
-                    gsap.to(card, {
-                        inertia: {
-                            x: { velocity: speedX * 20, end: startX },
-                            y: { velocity: speedY * 20, end: startY },
-                            rotation: { velocity: speedX * 1.5, end: startRotation },
-                        },
-                    });
-                };
-
-                card.addEventListener("mousemove", onMove);
-                card.addEventListener("mouseenter", onEnter);
-                card.addEventListener("mouseleave", onLeave);
-            });
-
             // Inertia on floating labels
             const labels = document.querySelectorAll(".motion-card__floating-label");
             labels.forEach((label) => {
@@ -100,8 +91,8 @@ export default function MotionCards() {
                 scrollTrigger: {
                     trigger: sectionRef.current,
                     start: "top 70%",
-                    toggleActions: "play none none reverse"
-                }
+                    toggleActions: "play none none reverse",
+                },
             });
 
             const topStickerImg = sectionRef.current.querySelector(".motion-card__sticker--top img");
@@ -113,8 +104,19 @@ export default function MotionCards() {
             const underlinePath = sectionRef.current.querySelector(".motion-card__underline-path");
             if (underlinePath) {
                 const pathLen = underlinePath.getTotalLength();
-                gsap.set(underlinePath, { strokeDasharray: pathLen, strokeDashoffset: pathLen });
-                tl.to(underlinePath, { strokeDashoffset: 0, duration: 1.5, ease: "power2.out" }, 0.2);
+                gsap.set(underlinePath, {
+                    strokeDasharray: pathLen,
+                    strokeDashoffset: pathLen,
+                });
+                tl.to(
+                    underlinePath,
+                    {
+                        strokeDashoffset: 0,
+                        duration: 1.4,
+                        ease: "power2.inOut",
+                    },
+                    0.2
+                );
             }
         }, sectionRef);
 
@@ -122,19 +124,14 @@ export default function MotionCards() {
     }, []);
 
     return (
-        <section
-            ref={sectionRef}
-            className="motion-card-section" id="projects">
-            {/* ─── Part 1: Bold Heading Text with SVG Sticker Placeholders ─── */}
-            <div className="motion-card__heading">
-                <h2 className="motion-card__title">
-                    engineered for scale.
-                    <br />
-                    built for impact.
-                </h2>
+        <section ref={sectionRef} className="motion-card" id="projects">
+            {/* ─── Part 1: Top Heading Text ─── */}
+            <div className="motion-card__header-text">
+                <h3 className="motion-card__title">
+                    engineered for scale. built for impact.
+                </h3>
                 <p className="motion-card__subtitle">
                     from microservices to UI.
-                    {/* SVG sticker placeholder — top-right area */}
                     <span className="motion-card__sticker motion-card__sticker--top">
                         <img
                             src="/assets/Footer-Sticker SVG/footer-sticker-hands.svg"
@@ -148,7 +145,7 @@ export default function MotionCards() {
                 </svg>
             </div>
 
-            {/* ─── Part 2: Cards with Colorful Bars & Blue Blob ─── */}
+            {/* ─── Part 2: Accordion Gallery Showcase & Blue Blob ─── */}
             <div className="motion-card__cards-area">
                 {/* Blue SVG blob behind everything */}
                 <div className="motion-card__blob">
@@ -159,75 +156,18 @@ export default function MotionCards() {
                     />
                 </div>
 
-                {/* 4 Flagship Project Cards */}
-                <div ref={containerRef} className="motion-card__cards">
-                    <div className="motion-card__card motion-card__card--1">
-                        <div className="motion-card__card-image">
-                            <img
-                                src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80"
-                                loading="lazy"
-                                width={800}
-                                height={800}
-                                alt="Marksorting - Machinery Lifecycle Platform"
-                                className="cover-image"
-                            />
-                            <div className="motion-card__card-badge">
-                                <h4>Marksorting Platform</h4>
-                                <span>NestJS • BullMQ • Redis • Prisma</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="motion-card__card motion-card__card--2">
-                        <div className="motion-card__card-image">
-                            <img
-                                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80"
-                                loading="lazy"
-                                width={800}
-                                height={800}
-                                alt="Onetouch Multi-Tenant Enterprise ERP"
-                                className="cover-image"
-                            />
-                            <div className="motion-card__card-badge">
-                                <h4>Onetouch Enterprise ERP</h4>
-                                <span>React • Node.js • Knex • MySQL</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="motion-card__card motion-card__card--3">
-                        <div className="motion-card__card-image">
-                            <img
-                                src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80"
-                                loading="lazy"
-                                width={800}
-                                height={800}
-                                alt="SkyNet Shipping Integration"
-                                className="cover-image"
-                            />
-                            <div className="motion-card__card-badge">
-                                <h4>SkyNet Logistics Plugin</h4>
-                                <span>.NET 9 • CQRS • Shopify & Woo</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="motion-card__card motion-card__card--4">
-                        <div className="motion-card__card-image">
-                            <img
-                                src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80"
-                                loading="lazy"
-                                width={800}
-                                height={800}
-                                alt="AI Tools & Open Source Starter"
-                                className="cover-image"
-                            />
-                            <div className="motion-card__card-badge">
-                                <h4>AI & Open Source</h4>
-                                <span>FastAPI AI • PyPI • 634+ npm dl</span>
-                            </div>
-                        </div>
-                    </div>
+                {/* React Bits AccordionGallery Project Showcase */}
+                <div className="motion-card__gallery-container">
+                    <AccordionGallery
+                        items={PROJECT_ITEMS}
+                        defaultIndex={1}
+                        expandRatio={0.52}
+                        height={480}
+                        gap={14}
+                        radius={20}
+                        accentColor="var(--color-pink)"
+                        trigger="hover"
+                    />
                 </div>
 
                 {/* Floating labels — positioned freely over the cards area */}
