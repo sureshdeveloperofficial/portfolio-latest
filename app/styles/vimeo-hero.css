@@ -201,7 +201,7 @@
 }
 
 /* ─────────────────────────────────────────────────
-   ① Controls — bottom-LEFT (pause/play + resize)
+   ① Controls — bottom-LEFT (play, sound, timeline, duration, fullscreen)
 ───────────────────────────────────────────────── */
 .vimeo-hero__controls {
     position: absolute;
@@ -210,40 +210,149 @@
     z-index: 4;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 9px;
+    padding: 6px 10px;
+    background: rgba(16, 16, 20, 0.62);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 13px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+    user-select: none;
+    transition: opacity 0.3s ease;
 }
 
 .vimeo-hero__btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    background: rgba(18, 18, 18, 0.45);
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.08);
     color: var(--color-white);
     cursor: url("/assets/Cursor SVG/cursor-pointer.svg") 2 0, pointer;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
-    transition:
-        background 0.25s ease,
-        border-color 0.25s ease,
-        transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-        box-shadow 0.25s ease;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .vimeo-hero__btn:hover {
-    background: rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.24);
     border-color: rgba(255, 255, 255, 0.65);
     transform: scale(1.08) translateY(-1px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+.vimeo-hero__btn.is-sound-on {
+    background: rgba(245, 105, 60, 0.22);
+    border-color: rgba(245, 105, 60, 0.85);
+    color: #FF8F6B;
 }
 
 .vimeo-hero__btn svg {
-    width: 17px;
-    height: 17px;
+    width: 16px;
+    height: 16px;
+}
+
+/* ── Timeline Track & Progress Fill ── */
+.vimeo-hero__timeline-wrap {
+    display: flex;
+    align-items: center;
+    width: 135px;
+    height: 32px;
+    cursor: url("/assets/Cursor SVG/cursor-pointer.svg") 2 0, pointer;
+    padding: 0 4px;
+}
+
+.vimeo-hero__timeline-track {
+    position: relative;
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 9999px;
+    overflow: visible;
+    transition: height 0.2s ease, background 0.2s ease;
+}
+
+.vimeo-hero__timeline-wrap:hover .vimeo-hero__timeline-track {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.32);
+}
+
+.vimeo-hero__timeline-fill {
+    position: relative;
+    height: 100%;
+    background: linear-gradient(90deg, #F5693C, #FF8A5B);
+    border-radius: 9999px;
+    min-width: 0%;
+    max-width: 100%;
+    pointer-events: none;
+    box-shadow: 0 0 10px rgba(245, 105, 60, 0.55);
+}
+
+.vimeo-hero__timeline-thumb {
+    position: absolute;
+    right: -5px;
+    top: 50%;
+    transform: translateY(-50%) scale(0);
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+    transition: transform 0.15s ease;
+}
+
+.vimeo-hero__timeline-wrap:hover .vimeo-hero__timeline-thumb {
+    transform: translateY(-50%) scale(1);
+}
+
+/* ── Duration & Elapsed Time Pill ── */
+.vimeo-hero__duration-pill {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 9px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    font-family: 'Epilogue', monospace, sans-serif;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    letter-spacing: 0.03em;
+    font-variant-numeric: tabular-nums;
+}
+
+.vimeo-hero__time-now {
+    color: #FFFFFF;
+}
+
+.vimeo-hero__time-sep {
+    color: rgba(255, 255, 255, 0.38);
+    font-size: 0.72rem;
+}
+
+.vimeo-hero__time-total {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+@media (max-width: 768px) {
+    .vimeo-hero__controls {
+        left: 18px;
+        bottom: 18px;
+        gap: 6px;
+        padding: 5px 8px;
+    }
+    .vimeo-hero__timeline-wrap {
+        width: 75px;
+    }
+    .vimeo-hero__duration-pill {
+        padding: 4px 6px;
+        font-size: 0.7rem;
+    }
 }
 
 /* ─────────────────────────────────────────────────

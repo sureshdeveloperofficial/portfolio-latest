@@ -14,6 +14,18 @@ export default function VimeoHero() {
     const [isMuted, setIsMuted] = useState(true);
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
+    const [currentTime, setCurrentTime] = useState(0);
+    const [duration, setDuration] = useState(37.7);
+    const [isScrubbing, setIsScrubbing] = useState(false);
+    const timelineRef = useRef(null);
+
+    // Format seconds to mm:ss
+    const formatTime = (secs) => {
+        if (isNaN(secs) || secs < 0) return '00:00';
+        const m = Math.floor(secs / 60);
+        const s = Math.floor(secs % 60);
+        return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+    };
 
     // Performance: Automatically pause video when scrolled away, resume when in viewport
     useEffect(() => {
@@ -125,7 +137,7 @@ export default function VimeoHero() {
         if (isPlaying) {
             iframeRef.current.pause();
         } else {
-            iframeRef.current.play();
+            iframeRef.current.play().catch(() => {});
         }
         setIsPlaying(p => !p);
     };
@@ -133,8 +145,13 @@ export default function VimeoHero() {
     const toggleMute = (e) => {
         if (e) e.stopPropagation();
         if (!iframeRef.current) return;
-        iframeRef.current.muted = !isMuted;
-        setIsMuted(m => !m);
+        const nextMuted = !isMuted;
+        iframeRef.current.muted = nextMuted;
+        setIsMuted(nextMuted);
+        if (!nextMuted && iframeRef.current.paused) {
+            iframeRef.current.play().catch(() => {});
+            setIsPlaying(true);
+        }
     };
 
     const toggleFullscreen = (e) => {
@@ -146,6 +163,50 @@ export default function VimeoHero() {
             document.exitFullscreen();
             setIsFullscreen(false);
         }
+    };
+
+    // Video playback tracking
+    const handleTimeUpdate = () => {
+        if (!isScrubbing && iframeRef.current) {
+            setCurrentTime(iframeRef.current.currentTime);
+            if (iframeRef.current.duration && !isNaN(iframeRef.current.duration)) {
+                setDuration(iframeRef.current.duration);
+            }
+        }
+    };
+
+    const handleLoadedMetadata = () => {
+        if (iframeRef.current && iframeRef.current.duration && !isNaN(iframeRef.current.duration)) {
+            setDuration(iframeRef.current.duration);
+        }
+    };
+
+    const seekToPosition = (clientX) => {
+        if (!timelineRef.current || !iframeRef.current || !duration) return;
+        const rect = timelineRef.current.getBoundingClientRect();
+        const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+        const target = ratio * duration;
+        iframeRef.current.currentTime = target;
+        setCurrentTime(target);
+    };
+
+    const handleTimelinePointerDown = (e) => {
+        e.stopPropagation();
+        setIsScrubbing(true);
+        seekToPosition(e.clientX);
+
+        const onPointerMove = (moveEvt) => {
+            seekToPosition(moveEvt.clientX);
+        };
+
+        const onPointerUp = () => {
+            setIsScrubbing(false);
+            window.removeEventListener('pointermove', onPointerMove);
+            window.removeEventListener('pointerup', onPointerUp);
+        };
+
+        window.addEventListener('pointermove', onPointerMove);
+        window.addEventListener('pointerup', onPointerUp);
     };
 
     return (
@@ -195,10 +256,12 @@ export default function VimeoHero() {
                     src="/assets/hero-video.mp4"
                     autoPlay
                     loop
-                    muted
+                    muted={isMuted}
                     playsInline
                     preload="auto"
                     onLoadedData={() => setIsLoaded(true)}
+                    onLoadedMetadata={handleLoadedMetadata}
+                    onTimeUpdate={handleTimeUpdate}
                     className={`vimeo-hero__iframe ${isLoaded ? 'is-loaded' : ''}`}
                     style={{ objectFit: 'cover' }}
                 />
@@ -222,6 +285,8 @@ export default function VimeoHero() {
                                     src="/assets/VimeoHero SVG/smiley-face.svg"
                                     alt=""
                                     className="home-header__smiley-svg"
+                                    width="48"
+                                    height="48"
                                 />
                             </div>
                         </span>
@@ -251,7 +316,7 @@ export default function VimeoHero() {
                     </h1>
                 </div>
 
-                {/* ① Controls — bottom LEFT: pause/play + fullscreen */}
+                {/* ① Controls — bottom LEFT: play/pause, sound, timeline, duration, fullscreen */}
                 <div className="vimeo-hero__controls" ref={controlsRef} onClick={(e) => e.stopPropagation()}>
                     {/* Play / Pause */}
                     <button className="vimeo-hero__btn" onClick={togglePlay} aria-label={isPlaying ? 'Pause' : 'Play'}>
@@ -266,6 +331,55 @@ export default function VimeoHero() {
                             </svg>
                         )}
                     </button>
+
+                    {/* Mute / Unmute Button */}
+                    <button
+                        className={`vimeo-hero__btn ${!isMuted ? 'is-sound-on' : ''}`}
+                        onClick={toggleMute}
+                        aria-label={isMuted ? 'Unmute Audio' : 'Mute Audio'}
+                    >
+                        {!isMuted ? (
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" />
+                                <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+                                <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+                            </svg>
+                        ) : (
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" />
+                                <line x1="23" y1="9" x2="17" y2="15" />
+                                <line x1="17" y1="9" x2="23" y2="15" />
+                            </svg>
+                        )}
+                    </button>
+
+                    {/* Interactive Timeline Track */}
+                    <div
+                        className="vimeo-hero__timeline-wrap"
+                        ref={timelineRef}
+                        onPointerDown={handleTimelinePointerDown}
+                        role="slider"
+                        aria-label="Seek video"
+                        aria-valuemin={0}
+                        aria-valuemax={duration}
+                        aria-valuenow={currentTime}
+                    >
+                        <div className="vimeo-hero__timeline-track">
+                            <div
+                                className="vimeo-hero__timeline-fill"
+                                style={{ width: `${Math.min(100, Math.max(0, (currentTime / (duration || 1)) * 100))}%` }}
+                            >
+                                <span className="vimeo-hero__timeline-thumb" />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Live Duration Counter */}
+                    <div className="vimeo-hero__duration-pill">
+                        <span className="vimeo-hero__time-now">{formatTime(currentTime)}</span>
+                        <span className="vimeo-hero__time-sep">/</span>
+                        <span className="vimeo-hero__time-total">{formatTime(duration)}</span>
+                    </div>
 
                     {/* Fullscreen */}
                     <button className="vimeo-hero__btn" onClick={toggleFullscreen} aria-label={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}>

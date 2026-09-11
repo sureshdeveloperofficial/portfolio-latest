@@ -13,6 +13,14 @@ export const metadata = {
         locale: 'en_US',
         type: 'website',
     },
+    icons: {
+        icon: [
+            { url: '/favicon.svg', type: 'image/svg+xml' },
+            { url: '/favicon.ico', sizes: 'any' },
+        ],
+        shortcut: '/favicon.svg',
+        apple: '/favicon.svg',
+    },
 };
 
 export default function RootLayout({ children }) {
