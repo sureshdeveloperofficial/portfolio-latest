@@ -15,8 +15,31 @@ export default function VimeoHero() {
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
 
-    // Native video loads immediately enough that we don't need a heavy ready listener.
-    // We already handle `setIsLoaded(true)` directly on the <video onLoadedData={...}> element.
+    // Performance: Automatically pause video when scrolled away, resume when in viewport
+    useEffect(() => {
+        const video = iframeRef.current;
+        const hero = playerRef.current;
+        if (!video || !hero) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    if (isPlaying) {
+                        video.play().catch(() => {});
+                    }
+                } else {
+                    video.pause();
+                }
+            },
+            { threshold: 0.15 }
+        );
+
+        observer.observe(hero);
+
+        return () => {
+            observer.disconnect();
+        };
+    }, [isPlaying]);
 
     /* ────────────────────────────────────────────────────
        ④ Hover mute bubble — same GSAP elastic spring as CursorBubble
@@ -166,24 +189,23 @@ export default function VimeoHero() {
                 ref={playerRef}
                 onClick={toggleMute}
             >
-                {/* 
-                  Video Placeholder: 
-                  Currently left blank to display a solid black background while you work on text, SVGs, and the navbar.
-                  Once you have your personal video file in the `public/` folder, uncomment and update the src below!
-                */}
+                {/* Video Background with Hardware Acceleration & Smooth Fade-in */}
                 <video
                     ref={iframeRef}
-                    // src="/your-personal-video.mp4"
+                    src="/assets/hero-video.mp4"
                     autoPlay
                     loop
                     muted
                     playsInline
-                    className="vimeo-hero__iframe"
-                    style={{ objectFit: 'cover', backgroundColor: '#111' }}
+                    preload="auto"
+                    onLoadedData={() => setIsLoaded(true)}
+                    className={`vimeo-hero__iframe ${isLoaded ? 'is-loaded' : ''}`}
+                    style={{ objectFit: 'cover' }}
                 />
 
-                {/* Gradient fade */}
+                {/* Gradient fade & corner watermark mask */}
                 <div className="vimeo-hero__fade" />
+                <div className="vimeo-hero__watermark-cover" />
 
                 {/* ① Headline — bottom left, word-by-word layout */}
                 <div className="home-header__title">
@@ -215,17 +237,8 @@ export default function VimeoHero() {
                         <span className="vimeo-hero__word">for </span>
                         <span className="vimeo-hero__word">modern </span>
 
-                        {/* "software" + ⑤ pink star (no spin) + oval underline */}
+                        {/* "software" + oval underline */}
                         <span className="vimeo-hero__word is--relative">
-                            <div className="home-header__star">
-                                <div className="home-header__star-inner">
-                                    <img
-                                        src="/assets/VimeoHero SVG/pink-star.svg"
-                                        alt=""
-                                        className="home-header__star-svg"
-                                    />
-                                </div>
-                            </div>
                             {/* Oval underline */}
                             <img
                                 src="/assets/VimeoHero SVG/oval-underline.svg"
