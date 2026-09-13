@@ -1,0 +1,396 @@
+/* ─── Reusable Double-Sided Tunnel Portal Styles (Mario-Style 3D Pipe) ─────── */
+
+:root {
+    --tunnel-width: clamp(80px, 8.5vw, 130px);
+    --tunnel-lip-width: clamp(24px, 2.6vw, 36px);
+}
+
+/* ─── Container ─── */
+.double-tunnel {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.double-tunnel__content {
+    position: relative;
+    width: 100%;
+    z-index: 5;
+}
+
+/* ─── 1. Theme: Blue Butterfly (Matches #82A0FF background butterfly) ─── */
+.double-tunnel--theme-butterfly-blue,
+.double-tunnel--theme-blue,
+.double-tunnel--theme-butterfly {
+    --pipe-edge-dark: #1b2f7a;
+    --pipe-curve-shadow: #3954ba;
+    --pipe-base: #82a0ff; /* exact butterfly color #82A0FF */
+    --pipe-highlight: #b0c4ff;
+    --pipe-specular: #ffffff; /* crisp white specular line */
+    --pipe-inner-mouth: #101c4a;
+    --pipe-ambient-glow: rgba(130, 160, 255, 0.45);
+}
+
+/* ─── 2. Theme: Website Brand Green (Mario Warp Pipe) ─── */
+.double-tunnel--theme-green,
+.double-tunnel--theme-website-green {
+    --pipe-edge-dark: #12382f;
+    --pipe-curve-shadow: #194a3e;
+    --pipe-base: #29725f;
+    --pipe-highlight: #3da88e;
+    --pipe-specular: #e6fab9; /* website lightgreen specular line */
+    --pipe-inner-mouth: #0b241e;
+    --pipe-ambient-glow: rgba(41, 114, 95, 0.28);
+}
+
+/* ─── 2. Theme: Website Cream / Clay ─── */
+.double-tunnel--theme-cream,
+.double-tunnel--theme-website-cream,
+.double-tunnel--theme-clay {
+    --pipe-edge-dark: #c2b7ab;
+    --pipe-curve-shadow: #d5cbbf;
+    --pipe-base: #ede7e1;
+    --pipe-highlight: #f7f4f0;
+    --pipe-specular: #ffffff;
+    --pipe-inner-mouth: #94887b;
+    --pipe-ambient-glow: rgba(245, 105, 60, 0.2);
+}
+
+/* ─── 3. Theme: Website Orange ─── */
+.double-tunnel--theme-orange,
+.double-tunnel--theme-website-orange {
+    --pipe-edge-dark: #912b0a;
+    --pipe-curve-shadow: #ba3b13;
+    --pipe-base: #f5693c;
+    --pipe-highlight: #ff8e6b;
+    --pipe-specular: #f0befa; /* website pink specular line */
+    --pipe-inner-mouth: #6e1e05;
+    --pipe-ambient-glow: rgba(245, 105, 60, 0.3);
+}
+
+/* ─── 4. Theme: Website Dark ─── */
+.double-tunnel--theme-dark,
+.double-tunnel--theme-website-dark {
+    --pipe-edge-dark: #0d0d0d;
+    --pipe-curve-shadow: #181818;
+    --pipe-base: #262626;
+    --pipe-highlight: #3d3d3d;
+    --pipe-specular: #f5693c;
+    --pipe-inner-mouth: #050505;
+    --pipe-ambient-glow: rgba(245, 105, 60, 0.2);
+}
+
+/* ─── Tunnel Portals (Left & Right Wings) ─── */
+.double-tunnel__portal {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: var(--tunnel-width);
+    z-index: 25;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+}
+
+.double-tunnel__portal--left {
+    left: 0;
+}
+
+.double-tunnel__portal--right {
+    right: 0;
+}
+
+/* ─── Tunnel Body Assembly ─── */
+.double-tunnel__body {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+/* Right portal mirrors layout cleanly */
+.double-tunnel__portal--right .double-tunnel__body {
+    flex-direction: row-reverse;
+}
+
+/* ─── 1. Cylindrical Pipe Body (Full Vertical Height) ─── */
+.double-tunnel__pipe {
+    position: relative;
+    flex: 1;
+    height: calc(100% - 20px);
+    overflow: hidden;
+}
+
+/* Left Pipe Body: Horizontal cylindrical gradient (light to dark across width) */
+.double-tunnel__portal--left .double-tunnel__pipe {
+    background: linear-gradient(
+        to right,
+        var(--pipe-edge-dark) 0%,
+        var(--pipe-curve-shadow) 12%,
+        var(--pipe-base) 28%,
+        var(--pipe-highlight) 46%,
+        var(--pipe-base) 70%,
+        var(--pipe-curve-shadow) 90%,
+        var(--pipe-edge-dark) 100%
+    );
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    box-shadow: 
+        inset 0 4px 6px rgba(255, 255, 255, 0.2),
+        inset 0 -6px 8px rgba(0, 0, 0, 0.4),
+        2px 8px 24px rgba(0, 0, 0, 0.22);
+}
+
+/* Right Pipe Body: Inverted horizontal gradient */
+.double-tunnel__portal--right .double-tunnel__pipe {
+    background: linear-gradient(
+        to left,
+        var(--pipe-edge-dark) 0%,
+        var(--pipe-curve-shadow) 12%,
+        var(--pipe-base) 28%,
+        var(--pipe-highlight) 46%,
+        var(--pipe-base) 70%,
+        var(--pipe-curve-shadow) 90%,
+        var(--pipe-edge-dark) 100%
+    );
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    box-shadow: 
+        inset 0 4px 6px rgba(255, 255, 255, 0.2),
+        inset 0 -6px 8px rgba(0, 0, 0, 0.4),
+        -2px 8px 24px rgba(0, 0, 0, 0.22);
+}
+
+/* Vertical Specular Light Strip running top-to-bottom down the cylinder */
+.double-tunnel__pipe-highlight {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    background: var(--pipe-specular);
+    opacity: 0.75;
+    filter: blur(1.5px);
+    pointer-events: none;
+}
+
+.double-tunnel__portal--left .double-tunnel__pipe-highlight {
+    left: 42%;
+}
+
+.double-tunnel__portal--right .double-tunnel__pipe-highlight {
+    right: 42%;
+}
+
+.double-tunnel__pipe-sheen {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 18px;
+    background: linear-gradient(
+        to right,
+        transparent 0%,
+        rgba(255, 255, 255, 0.22) 50%,
+        transparent 100%
+    );
+    pointer-events: none;
+}
+
+.double-tunnel__portal--left .double-tunnel__pipe-sheen {
+    left: 36%;
+}
+
+.double-tunnel__portal--right .double-tunnel__pipe-sheen {
+    right: 36%;
+}
+
+/* ─── 2. Protruding Collar Flange / Lip (Mario-Style Flange) ─── */
+.double-tunnel__lip {
+    position: relative;
+    width: var(--tunnel-lip-width);
+    height: 100%;
+    flex-shrink: 0;
+    z-index: 2;
+    overflow: hidden;
+}
+
+/* Left Collar Flange: Faces right towards the cards */
+.double-tunnel__portal--left .double-tunnel__lip {
+    background: linear-gradient(
+        to right,
+        var(--pipe-edge-dark) 0%,
+        var(--pipe-curve-shadow) 15%,
+        var(--pipe-base) 35%,
+        var(--pipe-highlight) 55%,
+        var(--pipe-base) 80%,
+        var(--pipe-inner-mouth) 100%
+    );
+    border-radius: 0 10px 10px 0;
+    margin-left: -1px;
+    box-shadow: 
+        4px 4px 18px rgba(0, 0, 0, 0.25),
+        inset 0 3px 5px rgba(255, 255, 255, 0.35),
+        inset 0 -4px 6px rgba(0, 0, 0, 0.4),
+        inset -4px 0 8px rgba(0, 0, 0, 0.5); /* dark mouth rim */
+}
+
+/* Right Collar Flange: Faces left towards the cards */
+.double-tunnel__portal--right .double-tunnel__lip {
+    background: linear-gradient(
+        to left,
+        var(--pipe-edge-dark) 0%,
+        var(--pipe-curve-shadow) 15%,
+        var(--pipe-base) 35%,
+        var(--pipe-highlight) 55%,
+        var(--pipe-base) 80%,
+        var(--pipe-inner-mouth) 100%
+    );
+    border-radius: 10px 0 0 10px;
+    margin-right: -1px;
+    box-shadow: 
+        -4px 4px 18px rgba(0, 0, 0, 0.25),
+        inset 0 3px 5px rgba(255, 255, 255, 0.35),
+        inset 0 -4px 6px rgba(0, 0, 0, 0.4),
+        inset 4px 0 8px rgba(0, 0, 0, 0.5); /* dark mouth rim */
+}
+
+/* Vertical Lip Highlight Line */
+.double-tunnel__lip-accent {
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    width: 3px;
+    background: var(--pipe-specular);
+    opacity: 0.85;
+    border-radius: 2px;
+    box-shadow: 0 0 6px var(--pipe-specular);
+}
+
+.double-tunnel__portal--left .double-tunnel__lip-accent {
+    left: 48%;
+}
+
+.double-tunnel__portal--right .double-tunnel__lip-accent {
+    right: 48%;
+}
+
+/* Subtle Bevel Line */
+.double-tunnel__lip-bevel {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.double-tunnel__portal--left .double-tunnel__lip-bevel {
+    left: 32%;
+}
+
+.double-tunnel__portal--right .double-tunnel__lip-bevel {
+    right: 32%;
+}
+
+/* Dark Inner Mouth Edge */
+.double-tunnel__lip-rim {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--pipe-inner-mouth);
+}
+
+.double-tunnel__portal--left .double-tunnel__lip-rim {
+    right: 0;
+}
+
+.double-tunnel__portal--right .double-tunnel__lip-rim {
+    left: 0;
+}
+
+/* ─── 3. Soft Cavern Depth Shadow ─── */
+.double-tunnel__mouth-inner-shadow {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 16px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.double-tunnel__portal--left .double-tunnel__mouth-inner-shadow {
+    right: -12px;
+    background: linear-gradient(
+        to right,
+        var(--pipe-inner-mouth) 0%,
+        transparent 100%
+    );
+    opacity: 0.55;
+}
+
+.double-tunnel__portal--right .double-tunnel__mouth-inner-shadow {
+    left: -12px;
+    background: linear-gradient(
+        to left,
+        var(--pipe-inner-mouth) 0%,
+        transparent 100%
+    );
+    opacity: 0.55;
+}
+
+/* ─── Ambient Glow ─── */
+.double-tunnel--glow .double-tunnel__portal--left::after {
+    content: "";
+    position: absolute;
+    right: -12px;
+    top: 20%;
+    height: 60%;
+    width: 28px;
+    background: radial-gradient(
+        ellipse at center,
+        var(--pipe-ambient-glow) 0%,
+        transparent 75%
+    );
+    pointer-events: none;
+    z-index: 0;
+}
+
+.double-tunnel--glow .double-tunnel__portal--right::after {
+    content: "";
+    position: absolute;
+    left: -12px;
+    top: 20%;
+    height: 60%;
+    width: 28px;
+    background: radial-gradient(
+        ellipse at center,
+        var(--pipe-ambient-glow) 0%,
+        transparent 75%
+    );
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ─── Responsive Adjustments ─── */
+@media (max-width: 768px) {
+    :root {
+        --tunnel-width: clamp(55px, 10vw, 80px);
+        --tunnel-lip-width: clamp(18px, 3vw, 24px);
+    }
+}
+
+@media (max-width: 480px) {
+    :root {
+        --tunnel-width: 48px;
+        --tunnel-lip-width: 16px;
+    }
+
+    .double-tunnel__pipe-highlight,
+    .double-tunnel__pipe-sheen {
+        opacity: 0.5;
+    }
+}

@@ -38,6 +38,12 @@
     );
 }
 
+/* When framed by the Double-Sided Tunnel, cards travel completely into the tunnel body */
+.double-tunnel .gsap-carousel__viewport {
+    -webkit-mask-image: none;
+    mask-image: none;
+}
+
 .gsap-carousel__viewport:active {
     cursor: grabbing;
 }

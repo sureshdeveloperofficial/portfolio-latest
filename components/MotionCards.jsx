@@ -144,7 +144,7 @@ export default function MotionCards() {
                     />
                 </div>
 
-                {/* GSAP Reusable Animated Project Carousel */}
+                {/* GSAP Reusable Animated Project Carousel Framed in DoubleSideTunnel */}
                 <div className="motion-card__gallery-container">
                     <GsapProjectCarousel
                         items={PROJECT_ITEMS}
@@ -157,6 +157,9 @@ export default function MotionCards() {
                         cardHeight={420}
                         gap={26}
                         onCardClick={handleCardAction}
+                        useTunnel={true}
+                        tunnelTheme="butterfly-blue"
+                        tunnelGlow={true}
                     />
                 </div>
             </div>

@@ -3,6 +3,7 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { gsap } from 'gsap';
 import MorphProjectCard from './MorphProjectCard';
+import DoubleSideTunnel from './DoubleSideTunnel';
 import '@/app/styles/gsap-carousel.css';
 
 const DEFAULT_PROJECTS = [
@@ -63,6 +64,11 @@ export default function GsapProjectCarousel({
     cardHeight = 420,
     onCardClick,
     className = '',
+    useTunnel = true,
+    tunnelTheme = 'butterfly-blue',
+    tunnelAccent,
+    tunnelGlow = true,
+    showRails = false,
 }) {
     const containerRef = useRef(null);
     const trackRef = useRef(null);
@@ -190,6 +196,54 @@ export default function GsapProjectCarousel({
         });
     };
 
+    const viewportElement = (
+        <div
+            className="gsap-carousel__viewport"
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={handlePointerUp}
+        >
+            <div
+                ref={trackRef}
+                className="gsap-carousel__track"
+                style={{ gap: `${gap}px` }}
+            >
+                {loopItems.map((item, idx) => {
+                    const originalIndex = idx % items.length;
+
+                    return (
+                        <div
+                            key={`${originalIndex}-${idx}`}
+                            className="gsap-carousel__card"
+                            style={{
+                                width: `${dynamicCardWidth}px`,
+                                height: `${dynamicCardHeight}px`,
+                            }}
+                        >
+                            <MorphProjectCard
+                                title={item.title || item.label}
+                                description={item.description}
+                                tech={item.tech}
+                                badge={item.badge}
+                                accentColor={item.accentColor || '#f5693c'}
+                                iconType={item.iconType || 'server'}
+                                link={item.link}
+                                githubLink={item.githubLink}
+                                hasCaseStudy={item.hasCaseStudy}
+                                onAction={(payload) => {
+                                    if (onCardClick) {
+                                        onCardClick(item, originalIndex, payload);
+                                    }
+                                }}
+                            />
+                        </div>
+                    );
+                })}
+            </div>
+        </div>
+    );
+
     return (
         <div
             ref={containerRef}
@@ -199,52 +253,19 @@ export default function GsapProjectCarousel({
             role="region"
             aria-label="Continuous Scrolling Projects Carousel"
         >
-            {/* Viewport & Scrolling Track */}
-            <div
-                className="gsap-carousel__viewport"
-                onPointerDown={handlePointerDown}
-                onPointerMove={handlePointerMove}
-                onPointerUp={handlePointerUp}
-                onPointerCancel={handlePointerUp}
-            >
-                <div
-                    ref={trackRef}
-                    className="gsap-carousel__track"
-                    style={{ gap: `${gap}px` }}
+            {/* Viewport & Scrolling Track (wrapped in Double-Sided Tunnel) */}
+            {useTunnel ? (
+                <DoubleSideTunnel
+                    theme={tunnelTheme}
+                    accentColor={tunnelAccent}
+                    glow={tunnelGlow}
+                    showRails={showRails}
                 >
-                    {loopItems.map((item, idx) => {
-                        const originalIndex = idx % items.length;
-
-                        return (
-                            <div
-                                key={`${originalIndex}-${idx}`}
-                                className="gsap-carousel__card"
-                                style={{
-                                    width: `${dynamicCardWidth}px`,
-                                    height: `${dynamicCardHeight}px`,
-                                }}
-                            >
-                                <MorphProjectCard
-                                    title={item.title || item.label}
-                                    description={item.description}
-                                    tech={item.tech}
-                                    badge={item.badge}
-                                    accentColor={item.accentColor || '#f5693c'}
-                                    iconType={item.iconType || 'server'}
-                                    link={item.link}
-                                    githubLink={item.githubLink}
-                                    hasCaseStudy={item.hasCaseStudy}
-                                    onAction={(payload) => {
-                                        if (onCardClick) {
-                                            onCardClick(item, originalIndex, payload);
-                                        }
-                                    }}
-                                />
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
+                    {viewportElement}
+                </DoubleSideTunnel>
+            ) : (
+                viewportElement
+            )}
 
             {/* Bottom Status & Control Bar */}
             <div className="gsap-carousel__controls">
