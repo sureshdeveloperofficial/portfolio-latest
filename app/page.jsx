@@ -20,24 +20,24 @@ export default function Home() {
             <SvgSymbols />
             <SmoothScroll />
             <CursorBubble />
-            <header className="main-header">
+            <header className="main-header" id="hero">
                 <Navbar />
                 <VimeoHero />
             </header>
             <HorizontalWords />
             <main>
-                <div className="content-section motion-cards-wrapper">
+                <div className="content-section motion-cards-wrapper" id="projects">
                     <MotionCards />
                 </div>
                 <Showreel />
-                <div className="content-section service-cards-wrapper">
+                <div className="content-section service-cards-wrapper" id="services">
                     <ServiceCards />
                 </div>
             </main>
-            <section className="Double-marquee">
+            <section className="Double-marquee" id="marquee">
                 <DoubleMarquee />
             </section>
-            <footer className="main-footer">
+            <footer className="main-footer" id="contact">
                 <Footer />
             </footer>
             <TransitionScribble />

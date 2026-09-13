@@ -7,6 +7,8 @@
 /* Fonts, CSS variables, reset, body/html  */
 @import './styles/navbar.css';
 /* Navbar, logos, header hero               */
+@import './styles/staggered-menu.css';
+/* StaggeredMenu drawer navigation          */
 @import './styles/hero.css';
 /* Content section title + underline SVG    */
 @import './styles/motion-cards.css';
