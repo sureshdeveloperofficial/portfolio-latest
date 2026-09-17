@@ -44,53 +44,6 @@ I am a Software Engineer and Freelance Full-Stack Developer specializing in high
 
 ---
 
-## 🚀 Featured Enterprise Projects & Case Studies
-
-### 1. 🍱 Premium Mess — Enterprise Meal Subscription & Kitchen ERP Platform
-> **Client**: Commercial Dubai Client (UAE) • **Status**: Production Live • **[Live Demo](https://premiummess.com/)**  
-> **Tech Stack**: Next.js 16 (App Router), TypeScript, PostgreSQL, Prisma ORM, Tailwind CSS, Puppeteer-Core, Chromium, Docker
-
-- **Dynamic 30-Day Scheduling Matrix**: Engineered a scheduling algorithm that dynamically computes rolling 30-day subscriptions, distinguishes workdays (Mon–Sat) from Sunday feast add-ons, and calculates pricing in real time.
-- **Dual-Location Delivery Routing**: Enabled subscribers to designate split delivery destinations for midday office lunches versus evening residential deliveries.
-- **Headless Server-Side PDF Invoicing**: Built an automated PDF invoicing engine using `puppeteer-core` and `@sparticuz/chromium`, generating vectorized A4 tax invoices with QR verification and automated Nodemailer dispatch.
-- **Kitchen ERP & Manifest Dashboard**: Aggregates real-time production counts by meal slot and category, dynamic menu configuration, and zero-downtime database-driven system settings (`prisma.setting`).
-- **Measurable Impact**: Saved **4 hours/day** in manual kitchen coordination; achieved **100% automated manifests** and **0% billing leakage** on add-ons.
-
----
-
-### 2. 🏭 Marksorting — Industrial Machinery Lifecycle & Field Service Platform
-> **Tech Stack**: NestJS, PostgreSQL, Redis, BullMQ, Next.js, Prisma ORM
-
-- **Two-Phase Ingestion Engine**: Engineered a bulk Excel data ingestion pipeline in TypeScript, Redis, and PostgreSQL, validating large machinery datasets before running chunked transactional background imports with live progress tracking.
-- **SSRF-Safe PDF Engine**: Built a secure Puppeteer PDF generation service with request interception, approved-host validation, image checks, and deterministic page cleanup to mitigate SSRF and memory leaks.
-- **Event-Driven Dispatch**: Integrated NestJS `EventEmitter2` and BullMQ to asynchronously process push notifications (Firebase FCM) and WhatsApp alerts with retry/backoff policies, provider rate limiting, and delivery logging.
-
----
-
-### 3. 🏢 Onetouch — Multi-Tenant Enterprise ERP
-> **Tech Stack**: React.js, Node.js, Express, Knex.js, MySQL, Material UI, TanStack Query
-
-- **Atomic State-Machine Workflows**: Orchestrated mission-critical catalog and order fulfillment workflows using atomic state transitions, ACID-compliant Knex transactions, and real-time Flutter mobile API synchronization.
-- **75% Latency Reduction**: Eliminated N+1 database bottlenecks through parallelized batch relational lookups, O(1) in-memory hash mapping, and proactive MySQL connection pooling.
-- **High-Performance Dashboards**: Cut operational order processing time by **35%** using TanStack Query optimistic caching and instant modal data hydration.
-
----
-
-### 4. 📦 SkyNet Plugin — Shopify & WooCommerce Shipping Gateway
-> **Tech Stack**: .NET 9, CQRS, PostgreSQL, Shopify API, WooCommerce Webhooks
-
-- **Bulk Waybill & Label Automation**: Automated carrier rate lookups, waybill creation, and multi-parcel tracking synchronization across high-volume merchants.
-- **Carrier API Offloading**: Introduced Redis caching layers and asynchronous background workers to minimize redundant carrier API calls and boost checkout responsiveness.
-
----
-
-### 5. 🤖 AI & Open Source Contributions
-- **`background-remover-model`**: Production FastAPI AI microservice for CPU-optimized image and video background removal (published on PyPI & GitHub).
-- **`suresh-node-ts-starter`**: Open-source production TypeScript/Node.js starter template featuring Express, Prisma, PostgreSQL, JWT, and Redis (**634+ npm downloads**).
-- **`Suresh SVG Converter v0.2.0`**: Parallel image-to-SVG vectorization pipeline delivering ~5-second conversion speeds.
-
----
-
 ## 🎨 About This Portfolio Website
 
 This portfolio website is a high-performance web experience built with **Next.js 16/15 + React 19**, combining visual aesthetics with motion design and 3D WebGL:
