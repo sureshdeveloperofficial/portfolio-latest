@@ -39,3 +39,13 @@ body.is-transitioning .cursor-bubble {
     transform: scale(0) !important;
     display: none !important;
 }
+
+/* ─── Disable Custom Cursor on Touch & Mobile ─── */
+@media (hover: none), (pointer: coarse), (max-width: 768px) {
+    .cursor-bubble,
+    .vimeo-mute-bubble {
+        display: none !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+    }
+}

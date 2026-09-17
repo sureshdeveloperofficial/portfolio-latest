@@ -97,6 +97,9 @@
     text-decoration: none;
     letter-spacing: -0.5px;
     width: fit-content;
+    max-width: 100%;
+    word-break: break-all;
+    overflow-wrap: anywhere;
     display: inline-block;
     cursor: url("/assets/Cursor SVG/cursor-pointer.svg") 12 12, pointer;
 }
@@ -108,6 +111,7 @@
     color: var(--color-white);
     text-decoration: none;
     width: fit-content;
+    max-width: 100%;
     display: inline-block;
     cursor: url("/assets/Cursor SVG/cursor-pointer.svg") 12 12, pointer;
 }
@@ -341,4 +345,91 @@
     bottom: 15%;
     width: 130px;
     transform: rotate(5deg);
+}
+
+/* ─── Responsive Styles ─── */
+@media (max-width: 768px) {
+    .footer-inner {
+        padding: 45px 18px 25px;
+        min-height: auto;
+    }
+
+    .footer-top {
+        flex-direction: column;
+        gap: 32px;
+    }
+
+    .footer-column h3 {
+        font-size: 1.5rem;
+    }
+
+    .footer-column address {
+        font-size: 1.3rem;
+    }
+
+    .footer-email {
+        font-size: clamp(1.1rem, 4.5vw, 1.45rem);
+    }
+
+    .footer-whatsapp {
+        font-size: clamp(1.1rem, 4.5vw, 1.45rem);
+        margin-top: 0;
+    }
+
+    .footer-bottom {
+        margin-top: 60px;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .footer-logo__svg {
+        width: 100%;
+        max-width: 100%;
+        margin-left: 0;
+    }
+
+    .footer-credits-wrapper {
+        margin-right: 0;
+        margin-bottom: 0;
+        align-self: flex-end;
+    }
+
+    .footer-sticker {
+        opacity: 0.75;
+    }
+
+    .sticker-boom {
+        width: 70px;
+        left: 2%;
+        bottom: 8%;
+    }
+
+    .sticker-smiley {
+        width: 65px;
+        left: 22%;
+        bottom: 4%;
+    }
+
+    .sticker-heart {
+        width: 60px;
+        left: 45%;
+        bottom: 12%;
+    }
+
+    .footer-sticker.sticker-hands {
+        display: none;
+    }
+
+    .footer-sticker.sticker-100 {
+        width: 60px;
+        left: 70%;
+        bottom: 15%;
+    }
+
+    .footer-sticker.sticker-camera {
+        width: 65px;
+        right: 4%;
+        bottom: 5%;
+    }
 }

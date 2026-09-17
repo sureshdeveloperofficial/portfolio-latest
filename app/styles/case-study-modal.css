@@ -516,11 +516,31 @@
         width: 100%;
         justify-content: center;
     }
-    .case-modal__header {
-        flex-direction: column;
-    }
     .case-modal__header-actions {
         width: 100%;
         justify-content: space-between;
+    }
+}
+
+@media (max-width: 480px) {
+    .case-modal__backdrop {
+        padding: 12px 8px;
+    }
+    .case-modal__container {
+        border-radius: 16px;
+        max-height: 94vh;
+    }
+    .case-modal__header {
+        padding: 20px 16px 16px;
+    }
+    .case-modal__body {
+        padding: 20px 16px;
+    }
+    .case-modal__metrics-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    .case-modal__footer-cta {
+        padding: 18px 16px;
     }
 }

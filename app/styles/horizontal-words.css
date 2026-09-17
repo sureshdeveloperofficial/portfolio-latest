@@ -116,3 +116,59 @@
     z-index: 2;
     white-space: nowrap;
 }
+
+/* ─── Responsive Styles ─── */
+@media (max-width: 768px) {
+    .horizontal-words__relative {
+        padding-left: 10vw;
+        padding-right: 10vw;
+    }
+
+    .horizontal-words__h2 {
+        font-size: clamp(3.2rem, 13vw, 5.2rem);
+    }
+
+    .horizontal-words__bottom-text {
+        width: min(90vw, 420px);
+        transform: translate(-50%, 6.5em);
+    }
+
+    .horizontal-words__bottom-text-l {
+        font-size: 1.05rem;
+        line-height: 1.5;
+        max-width: 100%;
+    }
+
+    .horizontal-words__arrow-svg {
+        width: 14em;
+        transform: translate(-120%, -20%);
+    }
+
+    .horizontal-words__sticker-cursor {
+        width: 5em;
+    }
+
+    .horizontal-words__sticker-phone {
+        width: 5.5em;
+    }
+
+    .horizontal-words__sticker-watch {
+        width: 4.5em;
+    }
+}
+
+@media (max-width: 480px) {
+    .horizontal-words__bottom-text {
+        width: min(92vw, 360px);
+        transform: translate(-50%, 5.2em);
+    }
+
+    .horizontal-words__bottom-text-l {
+        font-size: 0.92rem;
+        line-height: 1.45;
+    }
+
+    .horizontal-words__h2 {
+        font-size: clamp(2.6rem, 12vw, 3.8rem);
+    }
+}

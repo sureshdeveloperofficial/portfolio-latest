@@ -88,10 +88,10 @@ function initCardAnimations() {
         { rotation: 5 }
     ];
 
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const isTouchOrCompact = typeof window !== 'undefined' && (window.innerWidth <= 1200 || window.matchMedia('(hover: none), (pointer: coarse)').matches);
     let leaveTimeout = null;
 
-    if (!isMobile) {
+    if (!isTouchOrCompact) {
         cards.forEach((card, index) => {
             card.addEventListener('mouseenter', () => {
                 if (leaveTimeout) { clearTimeout(leaveTimeout); leaveTimeout = null; }

@@ -4,7 +4,7 @@
     width: 100%;
     max-width: 1400px;
     height: 650px;
-    margin: 100px auto 100px 100px;
+    margin: 60px auto;
     display: flex;
     justify-content: center;
     cursor: url("/assets/Cursor SVG/cursor-text.svg") 12 12, auto;

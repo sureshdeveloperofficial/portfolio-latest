@@ -462,3 +462,45 @@
     stroke-dashoffset: 0;
     transition-delay: 0.15s;
 }
+
+/* ─── Responsive Navbar Styles ─── */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 14px 18px;
+    }
+
+    .logo-suresh {
+        width: 110px;
+    }
+
+    .nav-right {
+        gap: 12px;
+    }
+
+    .nav-bar__whatsapp-svg {
+        width: 26px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        padding: 10px 14px;
+    }
+
+    .logo-suresh {
+        width: 95px;
+    }
+
+    .nav-right {
+        gap: 10px;
+    }
+
+    .sm-toggle-circle {
+        width: 38px !important;
+        height: 38px !important;
+    }
+
+    .nav-bar__whatsapp-svg {
+        width: 24px;
+    }
+}

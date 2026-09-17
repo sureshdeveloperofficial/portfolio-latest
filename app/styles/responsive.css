@@ -81,13 +81,21 @@
 
     /* ── Content / Hero Title ───────── */
     .content-section {
-        padding: 80px 0 0;
+        padding: 60px 0 0;
         overflow: visible;
     }
 
     .main-title {
-        font-size: 3rem;
-        letter-spacing: -2px;
+        font-size: clamp(2.2rem, 7.5vw, 3.2rem);
+        letter-spacing: -1.5px;
+    }
+
+    .service-freelance-badge {
+        max-width: 90vw;
+        white-space: normal;
+        text-align: center;
+        line-height: 1.4;
+        font-size: clamp(0.72rem, 3.2vw, 0.82rem);
     }
 
     .title-underline-svg {
@@ -96,23 +104,32 @@
     }
 
     .title-container {
-        margin-bottom: 50px;
+        margin-bottom: 35px;
     }
 
-    /* ── Cards (GSAP-controlled) ─────── */
+    /* ── Cards (Mobile Clean Stacked Flow) ─────── */
     .cards-wrapper {
         position: relative !important;
-        display: block !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        height: auto !important;
         width: 100% !important;
-        margin: 0 auto !important;
+        margin: 20px auto 50px !important;
         overflow: visible !important;
+        gap: 28px;
     }
 
     .card {
-        width: 82vw;
-        max-width: 340px;
-        min-height: 420px;
+        position: relative !important;
+        left: auto !important;
+        top: auto !important;
+        transform: none !important;
+        width: 88vw !important;
+        max-width: 360px !important;
+        min-height: 390px;
         height: auto;
+        margin-bottom: 0 !important;
     }
 
     .card-sticker {
@@ -221,14 +238,14 @@
     }
 
     .footer-inner {
-        padding: 50px 20px 30px;
+        padding: 40px 18px 24px;
         border-radius: 14px;
-        min-height: 100svh;
+        min-height: auto;
     }
 
     .footer-top {
         flex-direction: column;
-        gap: 36px;
+        gap: 32px;
     }
 
     .footer-column h3 {
@@ -241,12 +258,14 @@
     }
 
     .footer-email {
-        font-size: 1.3rem;
+        font-size: clamp(1.1rem, 4.5vw, 1.45rem);
+        word-break: break-all;
+        overflow-wrap: anywhere;
     }
 
     .footer-whatsapp {
-        font-size: 1.1rem;
-        margin-top: -6px;
+        font-size: clamp(1.1rem, 4.5vw, 1.45rem);
+        margin-top: -4px;
     }
 
     .footer-map-link {
@@ -292,12 +311,13 @@
 
     /* ── Footer wordmark ────────────── */
     .footer-bottom {
-        margin-top: 200px;
+        margin-top: 50px;
     }
 
     .footer-logo__svg {
-        width: 110%;
-        margin-left: -5%;
+        width: 100%;
+        max-width: 100%;
+        margin-left: 0;
     }
 
     /* ── Credits badge ──────────────── */
@@ -321,5 +341,41 @@
 
     .credits-name {
         font-size: 0.95rem;
+    }
+}
+
+/* ─── Small Mobile (≤ 480px) ────────────────────────────────────────────── */
+@media (max-width: 480px) {
+    .content-section {
+        padding: 45px 0 0;
+    }
+
+    .main-title {
+        font-size: clamp(1.85rem, 8vw, 2.5rem);
+    }
+
+    .footer-inner {
+        padding: 35px 14px 20px;
+    }
+
+    .footer-column h3 {
+        font-size: 1.35rem;
+    }
+
+    .footer-column address {
+        font-size: 1.15rem;
+    }
+
+    .footer-email {
+        font-size: 1.1rem;
+    }
+
+    .footer-whatsapp {
+        font-size: 1.05rem;
+    }
+
+    .credits-box {
+        padding: 12px 16px;
+        gap: 14px;
     }
 }

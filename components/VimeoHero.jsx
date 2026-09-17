@@ -75,7 +75,7 @@ export default function VimeoHero() {
         const heroTrigger = ScrollTrigger.create({
             trigger: hero,
             start: 'top top',
-            end: '+=1600',
+            end: () => (window.innerWidth <= 768 ? '+=1000' : '+=1600'),
             pin: true,
             pinSpacing: true,
             scrub: 0.25,
