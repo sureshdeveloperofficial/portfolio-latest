@@ -9,25 +9,13 @@ export default function VimeoHero() {
     const playerRef = useRef(null);
     const bubbleRef = useRef(null);
     const titleRef = useRef(null);
-    const controlsRef = useRef(null);
     const badgeRef = useRef(null);
 
     const [isPlaying, setIsPlaying] = useState(false);
     const [isMuted, setIsMuted] = useState(true);
-    const [isFullscreen, setIsFullscreen] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(8.0);
-    const [isScrubbing, setIsScrubbing] = useState(false);
-    const timelineRef = useRef(null);
-
-    // Format seconds to mm:ss
-    const formatTime = (secs) => {
-        if (isNaN(secs) || secs < 0) return '00:00';
-        const m = Math.floor(secs / 60);
-        const s = Math.floor(secs % 60);
-        return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
-    };
 
     // Performance: Automatically pause video when scrolled away, resume when in viewport
     useEffect(() => {
@@ -138,7 +126,6 @@ export default function VimeoHero() {
         const bubble = bubbleRef.current;
         const hero = playerRef.current;
         const title = titleRef.current;
-        const controls = controlsRef.current;
         if (!bubble || !hero) return;
 
         const xTo = gsap.quickTo(bubble, 'x', { duration: 0.5, ease: 'power3' });
@@ -171,12 +158,10 @@ export default function VimeoHero() {
 
         const onTitleEnter = () => {
             hideBubbleForElement();
-            if (controls) gsap.to(controls, { opacity: 0, duration: 0.3, pointerEvents: 'none' });
         };
 
         const onTitleLeave = () => {
             showBubbleForElement();
-            if (controls) gsap.to(controls, { opacity: 1, duration: 0.3, pointerEvents: 'auto' });
         };
 
         window.addEventListener('mousemove', onMove);
@@ -186,10 +171,6 @@ export default function VimeoHero() {
         if (title) {
             title.addEventListener('mouseenter', onTitleEnter);
             title.addEventListener('mouseleave', onTitleLeave);
-        }
-        if (controls) {
-            controls.addEventListener('mouseenter', hideBubbleForElement);
-            controls.addEventListener('mouseleave', showBubbleForElement);
         }
 
         return () => {
@@ -201,24 +182,8 @@ export default function VimeoHero() {
                 title.removeEventListener('mouseenter', onTitleEnter);
                 title.removeEventListener('mouseleave', onTitleLeave);
             }
-            if (controls) {
-                controls.removeEventListener('mouseenter', hideBubbleForElement);
-                controls.removeEventListener('mouseleave', showBubbleForElement);
-            }
         };
     }, []);
-
-    /* ── Controls ── */
-    const togglePlay = (e) => {
-        if (e) e.stopPropagation();
-        if (!iframeRef.current) return;
-        if (isPlaying) {
-            iframeRef.current.pause();
-        } else {
-            iframeRef.current.play().catch(() => {});
-        }
-        setIsPlaying(p => !p);
-    };
 
     const toggleMute = (e) => {
         if (e) e.stopPropagation();
@@ -226,26 +191,11 @@ export default function VimeoHero() {
         const nextMuted = !isMuted;
         iframeRef.current.muted = nextMuted;
         setIsMuted(nextMuted);
-        if (!nextMuted && iframeRef.current.paused) {
-            iframeRef.current.play().catch(() => {});
-            setIsPlaying(true);
-        }
-    };
-
-    const toggleFullscreen = (e) => {
-        if (e) e.stopPropagation();
-        if (!document.fullscreenElement) {
-            playerRef.current?.requestFullscreen();
-            setIsFullscreen(true);
-        } else {
-            document.exitFullscreen();
-            setIsFullscreen(false);
-        }
     };
 
     // Video playback tracking
     const handleTimeUpdate = () => {
-        if (!isScrubbing && iframeRef.current) {
+        if (iframeRef.current) {
             setCurrentTime(iframeRef.current.currentTime);
             if (iframeRef.current.duration && !isNaN(iframeRef.current.duration)) {
                 setDuration(iframeRef.current.duration);
@@ -256,35 +206,8 @@ export default function VimeoHero() {
     const handleLoadedMetadata = () => {
         if (iframeRef.current && iframeRef.current.duration && !isNaN(iframeRef.current.duration)) {
             setDuration(iframeRef.current.duration);
+            iframeRef.current.pause();
         }
-    };
-
-    const seekToPosition = (clientX) => {
-        if (!timelineRef.current || !iframeRef.current || !duration) return;
-        const rect = timelineRef.current.getBoundingClientRect();
-        const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
-        const target = ratio * duration;
-        iframeRef.current.currentTime = target;
-        setCurrentTime(target);
-    };
-
-    const handleTimelinePointerDown = (e) => {
-        e.stopPropagation();
-        setIsScrubbing(true);
-        seekToPosition(e.clientX);
-
-        const onPointerMove = (moveEvt) => {
-            seekToPosition(moveEvt.clientX);
-        };
-
-        const onPointerUp = () => {
-            setIsScrubbing(false);
-            window.removeEventListener('pointermove', onPointerMove);
-            window.removeEventListener('pointerup', onPointerUp);
-        };
-
-        window.addEventListener('pointermove', onPointerMove);
-        window.addEventListener('pointerup', onPointerUp);
     };
 
     return (
@@ -403,87 +326,7 @@ export default function VimeoHero() {
                     </h1>
                 </div>
 
-                {/* ① Controls — bottom LEFT: play/pause, sound, timeline, duration, fullscreen */}
-                <div className="vimeo-hero__controls" ref={controlsRef} onClick={(e) => e.stopPropagation()}>
-                    {/* Play / Pause */}
-                    <button className="vimeo-hero__btn" onClick={togglePlay} aria-label={isPlaying ? 'Pause' : 'Play'}>
-                        {isPlaying ? (
-                            <svg viewBox="0 0 24 24" fill="none">
-                                <path d="M5.5 5.125H8.5C8.70711 5.125 8.875 5.29289 8.875 5.5V18.5C8.875 18.7071 8.70711 18.875 8.5 18.875H5.5C5.29289 18.875 5.125 18.7071 5.125 18.5V5.5C5.125 5.29289 5.29289 5.125 5.5 5.125Z" stroke="currentColor" strokeWidth="1.25" strokeMiterlimit="10" />
-                                <path d="M15.5 5.125H18.5C18.7071 5.125 18.875 5.29289 18.875 5.5V18.5C18.875 18.7071 18.7071 18.875 18.5 18.875H15.5C15.2929 18.875 15.125 18.7071 15.125 18.5V5.5C15.125 5.29289 15.2929 5.125 15.5 5.125Z" stroke="currentColor" strokeWidth="1.25" strokeMiterlimit="10" />
-                            </svg>
-                        ) : (
-                            <svg viewBox="0 0 24 24" fill="none">
-                                <path d="M6 12V5.20128C6 4.37664 6.89256 3.86113 7.60685 4.27322L19.3914 11.072C20.1061 11.4843 20.1061 12.5158 19.3914 12.9281L7.60685 19.7269C6.89256 20.139 6 19.6234 6 18.7988V12Z" stroke="currentColor" strokeWidth="1.33929" strokeMiterlimit="10" />
-                            </svg>
-                        )}
-                    </button>
 
-                    {/* Mute / Unmute Button */}
-                    <button
-                        className={`vimeo-hero__btn ${!isMuted ? 'is-sound-on' : ''}`}
-                        onClick={toggleMute}
-                        aria-label={isMuted ? 'Unmute Audio' : 'Mute Audio'}
-                    >
-                        {!isMuted ? (
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" />
-                                <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-                                <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
-                            </svg>
-                        ) : (
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" />
-                                <line x1="23" y1="9" x2="17" y2="15" />
-                                <line x1="17" y1="9" x2="23" y2="15" />
-                            </svg>
-                        )}
-                    </button>
-
-                    {/* Interactive Timeline Track */}
-                    <div
-                        className="vimeo-hero__timeline-wrap"
-                        ref={timelineRef}
-                        onPointerDown={handleTimelinePointerDown}
-                        role="slider"
-                        aria-label="Seek video"
-                        aria-valuemin={0}
-                        aria-valuemax={duration}
-                        aria-valuenow={currentTime}
-                    >
-                        <div className="vimeo-hero__timeline-track">
-                            <div
-                                className="vimeo-hero__timeline-fill"
-                                style={{ width: `${Math.min(100, Math.max(0, (currentTime / (duration || 1)) * 100))}%` }}
-                            >
-                                <span className="vimeo-hero__timeline-thumb" />
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Live Duration Counter */}
-                    <div className="vimeo-hero__duration-pill">
-                        <span className="vimeo-hero__time-now">{formatTime(currentTime)}</span>
-                        <span className="vimeo-hero__time-sep">/</span>
-                        <span className="vimeo-hero__time-total">{formatTime(duration)}</span>
-                    </div>
-
-                    {/* Fullscreen */}
-                    <button className="vimeo-hero__btn" onClick={toggleFullscreen} aria-label={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}>
-                        {!isFullscreen ? (
-                            <svg viewBox="0 0 20 20" fill="none">
-                                <path fillRule="evenodd" clipRule="evenodd" d="M2.5 3.95833C2.5 3.15292 3.15292 2.5 3.95833 2.5H6.875C7.22017 2.5 7.5 2.77983 7.5 3.125C7.5 3.47017 7.22017 3.75 6.875 3.75H3.95833C3.84327 3.75 3.75 3.84327 3.75 3.95833V6.875C3.75 7.22017 3.47017 7.5 3.125 7.5C2.77983 7.5 2.5 7.22017 2.5 6.875V3.95833ZM12.5 3.125C12.5 2.77983 12.7798 2.5 13.125 2.5H16.0417C16.8471 2.5 17.5 3.15292 17.5 3.95833V6.875C17.5 7.22017 17.2202 7.5 16.875 7.5C16.5298 7.5 16.25 7.22017 16.25 6.875V3.95833C16.25 3.84327 16.1567 3.75 16.0417 3.75H13.125C12.7798 3.75 12.5 3.47017 12.5 3.125ZM3.125 12.5C3.47017 12.5 3.75 12.7798 3.75 13.125V16.0417C3.75 16.1567 3.84327 16.25 3.95833 16.25H6.875C7.22017 16.25 7.5 16.5298 7.5 16.875C7.5 17.2202 7.22017 17.5 6.875 17.5H3.95833C3.15292 17.5 2.5 16.8471 2.5 16.0417V13.125C2.5 12.7798 2.77983 12.5 3.125 12.5ZM16.875 12.5C17.2202 12.5 17.5 12.7798 17.5 13.125V16.0417C17.5 16.8471 16.8471 17.5 16.0417 17.5H13.125C12.7798 17.5 12.5 17.2202 12.5 16.875C12.5 16.5298 12.7798 16.25 13.125 16.25H16.0417C16.1567 16.25 16.25 16.1567 16.25 16.0417V13.125C16.25 12.7798 16.5298 12.5 16.875 12.5Z" fill="currentColor" />
-                            </svg>
-                        ) : (
-                            <svg viewBox="0 0 20 20" fill="none">
-                                <path d="M6.04167 7.5C6.84708 7.5 7.5 6.84708 7.5 6.04167L7.5 3.125C7.5 2.77983 7.22017 2.5 6.875 2.5C6.52982 2.5 6.25 2.77983 6.25 3.125L6.25 6.04167C6.25 6.15673 6.15672 6.25 6.04167 6.25L3.125 6.25C2.77983 6.25 2.5 6.52983 2.5 6.875C2.5 7.22018 2.77983 7.5 3.125 7.5L6.04167 7.5Z" fill="currentColor" />
-                                <path d="M16.875 7.5C17.2202 7.5 17.5 7.22017 17.5 6.875C17.5 6.52982 17.2202 6.25 16.875 6.25L13.9583 6.25C13.8433 6.25 13.75 6.15673 13.75 6.04167L13.75 3.125C13.75 2.77983 13.4702 2.5 13.125 2.5C12.7798 2.5 12.5 2.77983 12.5 3.125L12.5 6.04167C12.5 6.84708 13.1529 7.5 13.9583 7.5L16.875 7.5Z" fill="currentColor" />
-                                <path d="M12.5 16.875C12.5 17.2202 12.7798 17.5 13.125 17.5C13.4702 17.5 13.75 17.2202 13.75 16.875L13.75 13.9583C13.75 13.8433 13.8433 13.75 13.9583 13.75L16.875 13.75C17.2202 13.75 17.5 13.4702 17.5 13.125C17.5 12.7798 17.2202 12.5 16.875 12.5L13.9583 12.5C13.1529 12.5 12.5 13.1529 12.5 13.9583L12.5 16.875Z" fill="currentColor" />
-                                <path d="M6.25 16.875C6.25 17.2202 6.52982 17.5 6.875 17.5C7.22017 17.5 7.5 17.2202 7.5 16.875L7.5 13.9583C7.5 13.1529 6.84708 12.5 6.04167 12.5L3.125 12.5C2.77982 12.5 2.5 12.7798 2.5 13.125C2.5 13.4702 2.77982 13.75 3.125 13.75L6.04167 13.75C6.15672 13.75 6.25 13.8433 6.25 13.9583L6.25 16.875Z" fill="currentColor" />
-                            </svg>
-                        )}
-                    </button>
-                </div>
 
                 {/* Loading spinner removed because native HTML video loads silently in background */}
             </div>
