@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 export default function VimeoHero() {
     const iframeRef = useRef(null);
@@ -9,13 +10,14 @@ export default function VimeoHero() {
     const bubbleRef = useRef(null);
     const titleRef = useRef(null);
     const controlsRef = useRef(null);
+    const badgeRef = useRef(null);
 
-    const [isPlaying, setIsPlaying] = useState(true);
+    const [isPlaying, setIsPlaying] = useState(false);
     const [isMuted, setIsMuted] = useState(true);
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
-    const [duration, setDuration] = useState(37.7);
+    const [duration, setDuration] = useState(8.0);
     const [isScrubbing, setIsScrubbing] = useState(false);
     const timelineRef = useRef(null);
 
@@ -52,6 +54,82 @@ export default function VimeoHero() {
             observer.disconnect();
         };
     }, [isPlaying]);
+
+    // ── Bidirectional Scroll-Driven Video Scrubbing (GSAP ScrollTrigger) ──
+    useEffect(() => {
+        gsap.registerPlugin(ScrollTrigger);
+        const hero = playerRef.current;
+        const video = iframeRef.current;
+        const title = titleRef.current;
+        if (!hero || !video) return;
+
+        let targetProgress = 0;
+        let currentProgress = 0;
+        let animFrameId = null;
+
+        video.pause();
+
+        // 60fps buttery smooth lerp render loop for bidirectional seeking
+        const renderLoop = () => {
+            const vidDur = (video && video.duration && !isNaN(video.duration)) ? video.duration : duration;
+            if (video && vidDur) {
+                currentProgress += (targetProgress - currentProgress) * 0.18;
+                const newTime = Math.max(0, Math.min(vidDur, currentProgress * vidDur));
+                if (Math.abs(video.currentTime - newTime) > 0.004) {
+                    video.currentTime = newTime;
+                    setCurrentTime(newTime);
+                }
+            }
+            animFrameId = requestAnimationFrame(renderLoop);
+        };
+        animFrameId = requestAnimationFrame(renderLoop);
+
+        const heroTrigger = ScrollTrigger.create({
+            trigger: hero,
+            start: 'top top',
+            end: '+=1600',
+            pin: true,
+            pinSpacing: true,
+            scrub: 0.25,
+            invalidateOnRefresh: true,
+            onUpdate: (self) => {
+                if (video && !video.paused) {
+                    video.pause();
+                    setIsPlaying(false);
+                }
+                targetProgress = self.progress;
+
+                // Dynamic scroll hint badge response
+                if (badgeRef.current) {
+                    if (self.progress > 0.85) {
+                        badgeRef.current.style.opacity = '0';
+                        badgeRef.current.style.transform = 'translateY(-8px)';
+                    } else {
+                        badgeRef.current.style.opacity = '1';
+                        badgeRef.current.style.transform = 'translateY(0)';
+                    }
+                }
+
+                // Sync headline, underline and smiley face with scroll position
+                if (title) {
+                    const underline = title.querySelector('.home-header__title-line-svg');
+                    const smiley = title.querySelector('.home-header__smiley');
+                    if (underline) {
+                        underline.style.opacity = self.progress > 0.35 ? '1' : `${self.progress / 0.35}`;
+                    }
+                    if (smiley) {
+                        smiley.style.opacity = self.progress > 0.2 ? '1' : `${self.progress / 0.2}`;
+                        smiley.style.transform = `scale(${Math.min(1, 0.4 + self.progress * 0.6)})`;
+                    }
+                }
+            },
+        });
+
+        return () => {
+            if (animFrameId) cancelAnimationFrame(animFrameId);
+            heroTrigger.kill();
+        };
+    }, []);
 
     /* ────────────────────────────────────────────────────
        ④ Hover mute bubble — same GSAP elastic spring as CursorBubble
@@ -253,9 +331,7 @@ export default function VimeoHero() {
                 {/* Video Background with Hardware Acceleration & Smooth Fade-in */}
                 <video
                     ref={iframeRef}
-                    src="/assets/hero-video.mp4"
-                    autoPlay
-                    loop
+                    src="/assets/hero-scrub.mp4"
                     muted={isMuted}
                     playsInline
                     preload="auto"
@@ -269,6 +345,17 @@ export default function VimeoHero() {
                 {/* Gradient fade & corner watermark mask */}
                 <div className="vimeo-hero__fade" />
                 <div className="vimeo-hero__watermark-cover" />
+
+                {/* Interactive scroll instruction badge */}
+                <div className="vimeo-hero__scroll-badge" ref={badgeRef}>
+                    <span className="vimeo-hero__scroll-icon">
+                        <svg width="14" height="20" viewBox="0 0 14 20" fill="none">
+                            <rect x="1" y="1" width="12" height="18" rx="6" stroke="currentColor" strokeWidth="1.5" />
+                            <path d="M7 5V8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="vimeo-hero__scroll-wheel" />
+                        </svg>
+                    </span>
+                    <span className="vimeo-hero__scroll-text">Scroll to wear glasses &bull; Reverse to rewind</span>
+                </div>
 
                 {/* ① Headline — bottom left, word-by-word layout */}
                 <div className="home-header__title">

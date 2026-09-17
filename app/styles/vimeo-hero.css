@@ -25,7 +25,7 @@
     opacity: 0;
     transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: opacity, transform;
-    transform: translate3d(0, 0, 0) scale(1.14);
+    transform: translate3d(0, 0, 0) scale(1.02);
     transform-origin: center 25%;
 }
 
@@ -434,3 +434,65 @@
 .home-header__mute-icons {
     display: none;
 }
+
+/* ── Interactive scroll hint badge ── */
+.vimeo-hero__scroll-badge {
+    position: absolute;
+    top: 24px;
+    right: 28px;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 18px;
+    background: rgba(18, 18, 18, 0.72);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 9999px;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    pointer-events: none;
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+}
+
+.vimeo-hero__scroll-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary, #ffffff);
+    opacity: 0.9;
+}
+
+.vimeo-hero__scroll-wheel {
+    animation: vimeoHeroScrollWheel 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes vimeoHeroScrollWheel {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    55% {
+        transform: translateY(4px);
+        opacity: 0.2;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .vimeo-hero__scroll-badge {
+        top: 16px;
+        right: 16px;
+        padding: 6px 12px;
+        font-size: 9.5px;
+        gap: 6px;
+    }
+}
