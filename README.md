@@ -204,20 +204,14 @@ portfolio-latest/
 
 ---
 
-## 📜 Certifications & Education
+## 📜 Professional Certifications
 
-### Professional Certifications
 - **Software Engineer Certification** — HackerRank
 - **Generative AI Foundational Certificate** — Udemy
 - **Mastering LLM Evaluation: Build Reliable, Scalable AI Systems** — Udemy
 - **Resilience Patterns in Microservice Architecture, Hands-On** — Udemy
 - **Python for AI and Machine Learning** — Udemy
 - **Next.js Full-Stack Architecture** — Udemy
-
-### Education
-- **B.Sc. in Computer Science** (2020 – 2023)  
-  *Sri Jayendra Saraswathy Maha Vidyalaya College of Arts & Science*  
-  **CGPA**: 8.1 / 10.0
 
 ---
 
