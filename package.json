@@ -1,6 +1,7 @@
 {
-  "name": "truus",
-  "version": "0.1.0",
+  "name": "suresh-portfolio",
+  "version": "1.0.0",
+  "description": "Suresh Shanmugasundaram — Software Engineer & Freelance Full-Stack Developer Portfolio",
   "private": true,
   "scripts": {
     "dev": "next dev -p 1919",

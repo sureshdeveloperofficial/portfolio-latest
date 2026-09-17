@@ -34,9 +34,9 @@ const STAGGERED_MENU_ITEMS = [
 
 const STAGGERED_SOCIAL_ITEMS = [
     { label: 'WhatsApp', link: 'https://wa.me/919361880749' },
-    { label: 'GitHub', link: 'https://github.com' },
-    { label: 'LinkedIn', link: 'https://linkedin.com' },
-    { label: 'Email', link: 'mailto:sureshshanmugam1919@gmail.com' },
+    { label: 'GitHub', link: 'https://github.com/sureshdeveloperofficial' },
+    { label: 'LinkedIn', link: 'https://linkedin.com/in/suresh-shanmugasundaram-7590ab279' },
+    { label: 'Email', link: 'mailto:sureshdevoperofficial@gmail.com' },
 ];
 
 export default function Navbar() {
