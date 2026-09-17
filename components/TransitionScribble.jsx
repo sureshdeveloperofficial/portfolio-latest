@@ -6,11 +6,11 @@ import { ANIMATION_CONFIG } from '@/lib/data';
 
 export default function TransitionScribble() {
     useEffect(() => {
-        const logoTruusClickable = document.querySelector('.logo-truus');
+        const logoSureshClickable = document.querySelector('.logo-suresh');
         const transitionScribblePath = document.querySelector('.transition-scribble path');
         const transitionScribbleSvg = document.querySelector('.transition-scribble');
 
-        if (!logoTruusClickable || !transitionScribblePath || !transitionScribbleSvg) return;
+        if (!logoSureshClickable || !transitionScribblePath || !transitionScribbleSvg) return;
 
         const transitionColors = [
             'var(--color-green)', 'var(--color-lightblue)', 'var(--color-darkblue)',
@@ -41,7 +41,7 @@ export default function TransitionScribble() {
                 transitionLogo = document.createElement('div');
                 transitionLogo.className = 'transition-logo';
                 transitionLogo.style.cssText = 'position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); z-index:10000; pointer-events:none; opacity:0; display:flex; justify-content:center; align-items:center; transition: color 0.1s;';
-                const svgClone = document.querySelector('.logo-truus').cloneNode(true);
+                const svgClone = document.querySelector('.logo-suresh').cloneNode(true);
                 svgClone.style.width = '150px';
                 svgClone.style.height = 'auto';
                 transitionLogo.appendChild(svgClone);
@@ -95,13 +95,13 @@ export default function TransitionScribble() {
             }, durIn + (durOut * 0.48));
         };
 
-        logoTruusClickable.addEventListener('click', runScribbleAnimation);
+        logoSureshClickable.addEventListener('click', runScribbleAnimation);
 
         // Auto-run on load
         const timer = setTimeout(() => runScribbleAnimation(null), 100);
 
         return () => {
-            logoTruusClickable.removeEventListener('click', runScribbleAnimation);
+            logoSureshClickable.removeEventListener('click', runScribbleAnimation);
             clearTimeout(timer);
         };
     }, []);

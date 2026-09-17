@@ -83,8 +83,8 @@ export default function Navbar() {
 
         // Wiggle on logo and whatsapp
         const cleanups = [];
-        const logoTruus = document.querySelector('.logo-truus');
-        if (logoTruus) cleanups.push(initWiggle(logoTruus, WIGGLE_CONFIG.logoTruus));
+        const logoSuresh = document.querySelector('.logo-suresh');
+        if (logoSuresh) cleanups.push(initWiggle(logoSuresh, WIGGLE_CONFIG.logoSuresh));
 
         const overlay = document.querySelector('.nav-overlay');
         if (overlay) {
@@ -214,7 +214,7 @@ export default function Navbar() {
                     </a>
                 </div>
                 <div className="nav-center" style={{ cursor: "url('/assets/Cursor SVG/cursor-pointer.svg') 12 12, pointer" }}>
-                    <svg className="logo-truus" width="165" height="38" viewBox="0 0 165 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Suresh Shanmugasundaram">
+                    <svg className="logo-suresh" width="165" height="38" viewBox="0 0 165 38" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Suresh Shanmugasundaram">
                         <text x="5" y="27" fill="currentColor" fontFamily="'Epilogue', 'Montserrat', sans-serif" fontWeight="900" fontSize="24" letterSpacing="4.5">SURESH</text>
                         <circle cx="152" cy="23" r="3.5" fill="var(--color-pink)" />
                     </svg>
